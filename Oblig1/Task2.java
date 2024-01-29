@@ -11,7 +11,6 @@ public class Task2 {
     public static int[] numbers;
     static CyclicBarrier cb;
     
-
     static class Worker extends Thread {
         private int begin;
         public int end;
@@ -23,15 +22,12 @@ public class Task2 {
             this.innerK= begin+ k;
         }
         
-        
+    
         @Override
         public void run() {
             System.out.println("begin: "+ begin+ " end " + end);
             InsertionSort.insertSort(numbers, begin, innerK-1);
-
-            
             InsertionSort.compare(numbers, innerK, end);
-
 
             try {
                 cb.await();
@@ -66,13 +62,12 @@ public class Task2 {
         //final int threads = 4; 
         int threadsNum = Runtime.getRuntime().availableProcessors();
         
+        
         long timeStart = System.currentTimeMillis() ;
-        
-        
         while (threadsNum * k > n) threadsNum /= 2;
         System.out.println(threadsNum+ " how many threads i have");
         Thread[] workers = new Thread[threadsNum];
-      
+        
         int rest = n % threadsNum;
         cb = new CyclicBarrier(threadsNum+1); 
         for (int i = 0; i <threadsNum; i++) {

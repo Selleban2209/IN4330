@@ -9,7 +9,7 @@ public class Task1 {
     static int[] numbers = new int[N];
    
     
-    
+
     public static void main(String[] args) {
         int n = 0, k = 0;
         
@@ -30,10 +30,8 @@ public class Task1 {
         double[] timesA1 = new double[7];
         double[] timesA2 = new double[7];
         for (int i = 0; i < 7; i++) {
-
             
             System.out.println("\n\nRun number: " + (i+1)+ "\n");
-
             InsertionSort sort = new InsertionSort();
             
             int[] regSort = numbers.clone();

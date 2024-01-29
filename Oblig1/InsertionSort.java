@@ -1,6 +1,5 @@
 public class InsertionSort {
 
-
     public static void insertSort (int [] a, int v, int h) {
         int i, t;
         for (int k = v; k < h; k++) {
@@ -30,17 +29,11 @@ public class InsertionSort {
             int t = a[j];
             if(a[j]<= a[h] ){
                 a[j] = a[h];
-                a[h] = t;
-                
-            }
-            
+                a[h] = t;               
+            }           
                           
         }
-    }
-      
-    
-
-    
+    }   
     
 }
     
