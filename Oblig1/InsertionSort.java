@@ -16,7 +16,7 @@ public class InsertionSort {
 
     public static void compare(int []a, int v , int h){
         for (int i = v; i < h; i++) {         
-           if(a[i+1]> a[v]){
+           if(a[i+1]>= a[v]){
               
                 a[v] = a[i];
                 sortOne(a, v, i+1);
