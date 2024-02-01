@@ -34,6 +34,13 @@ public class InsertionSort {
                           
         }
     }   
+
+    public static  void swap(int a[], int ind1, int ind2) {
+        int temp = a[ind1];
+        a[ind1] = a[ind2];
+        a[ind2] = temp;
+    }
+
     
 }
     

@@ -14,3 +14,7 @@ N =1000000
 N =10000000
 
 N= 100000000 
+
+
+
+Excel graph for oblig: Scatter diagram 

@@ -22,7 +22,53 @@ public class Task2 {
             return sb+"]";
     
     }
-    
+    private static void combineResults(int[]a, int indexes[]){
+        int [] largestKs= new int[k];
+        int currentK;
+        int nextK;
+        int largest;
+        int partJ;
+        for (int i = 0; i < k; i++) {
+           partJ=0;
+           largest = a[indexes[0]];
+           for (int j = 0; j < indexes.length; j++) {
+                if (a[indexes[j]]> largest){
+                    partJ= j;
+                    largest = a[indexes[j]];
+                }                          
+            }
+            //System.out.println("currentK " + currentK+ " nextK " + nextK);
+            largestKs[i] = indexes[partJ];
+
+            indexes[partJ]++;
+
+        }
+         
+        for (int i = 0; i < largestKs.length; i++) {
+            if (largestKs[i] < k) {
+                //                System.out.println("moving " + a[indexHolder[i]] + "into ind" + (i+k));
+                InsertionSort.swap(a,i+k, largestKs[i]);
+            }
+        }
+        
+        
+        for (int i = 0; i < largestKs.length; i++) {
+            
+                
+            if(largestKs[i] >k){
+                
+                InsertionSort.swap(a, i, largestKs[i] );
+            }else {
+                
+                InsertionSort.swap(a, i , i+k);
+            }
+            
+            
+        }
+        //System.out.println("largest k "+Arrays.toString(largestKs));
+        
+        
+    }
     static class Worker extends Thread {
         public int begin;
         public int end;
@@ -42,11 +88,11 @@ public class Task2 {
             InsertionSort.insertSort(numbers, begin, innerK);
             InsertionSort.compare(numbers, innerK, end-1);
             
-           // System.out.println(presentChunk(begin, end));
+           //System.out.println(presentChunk(begin, end));
             
             try {
                 cb.await();
-                //System.out.println("begin "+ begin + " end "+ end+ " innerK "+ innerK);
+          //      System.out.println("begin "+ begin + " end "+ end+ " innerK "+ innerK);
             } catch (InterruptedException | BrokenBarrierException e) {
                 System.out.println("Failure...");
                 System.exit(-1);
@@ -78,20 +124,19 @@ public class Task2 {
         int threadsNum = Runtime.getRuntime().availableProcessors();
         
         
-        System.out.println(threadsNum+ " how many threads i have");
-        long timeStart = System.currentTimeMillis() ;
+        //System.out.println(threadsNum+ " how many threads i have");
+        double timeStart = System.nanoTime() ;
         while (threadsNum * k > n) threadsNum /= 2;
         Thread[] workers = new Thread[threadsNum];
-        
-        int rest = n % threadsNum;
-        int[] ok = new int[threadsNum];
+        int[] BeginEndIndexes = new int[threadsNum];
         cb = new CyclicBarrier(threadsNum+1); 
         for (int i = 0; i <threadsNum; i++) {
             
             int begin= n/threadsNum*i;
             int end = (n/threadsNum) * (i+1) ;
-            if(i==threadsNum -1 ) end = n;     
-            ok[i] = begin;    
+            if(i==threadsNum -1 )end = n;       
+            BeginEndIndexes[i] = begin;    
+            //BeginEndIndexes[i+1] = end-1;
             workers[i] = new Worker(begin, end);
             workers[i].start();
         }
@@ -104,13 +149,27 @@ public class Task2 {
             System.out.println("Failure...");
             System.exit(-1);
         }
+
+
+      //  System.out.println("Idexes for begin and end "+ Arrays.toString(BeginEndIndexes));
+        combineResults(numbers, BeginEndIndexes);
   
-       // System.out.println("INdexeds "+ Arrays.toString(ok));
-       // InsertionSort.compare(numbers, k-1, numbers.length-1);
-        long timefinish = System.currentTimeMillis();
-        long elapsedTime = timefinish- timeStart;
-       //System.out.println("Sorted A2/w threads "+ Arrays.toString(numbers));
-        System.out.println("\nElapsed time: " + elapsedTime + " ms");
+        double elapsedTimeA2Par =  (System.nanoTime() - timeStart) / 1e6;
+        //System.out.println("Sorted A2/w threads "+ Arrays.toString(numbers));
+        System.out.println("\nElapsed time: " + elapsedTimeA2Par + " ms");
+
+        int[] A2Sort = numbers.clone();
+        double timeStartA2 = System.nanoTime();
+        InsertionSort.insertSort(A2Sort, 0, k - 1);
+        InsertionSort.compare(A2Sort, k-1, n - 1);
+       
+        double elapsedTimeA2 =(System.nanoTime() - timeStartA2) / 1e6;
+        System.out.println("\nElapsed time: " + elapsedTimeA2 + " ms");
+
+
+        System.out.println("\nSpeed up: "+  elapsedTimeA2/elapsedTimeA2Par);
+
+     
 
     }
     
