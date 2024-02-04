@@ -14,24 +14,37 @@ public class InsertionSort {
         } // than for k
     } //
 
-    public static void compare(int []a, int k , int h){
-        for (int i = k; i < h; i++) {         
-           if(a[i+1]>=a[k]){       
-                a[k] = a[i];
-                sortOne(a, k, i+1);
+    public static void compare(int []a, int k , int n){
+        for (int i = k; i < n; i++) {         
+           if(a[i]>=a[k-1]){       
+                swap(a, k-1, i);         
+                sortOne(a, k, i);
            } 
         }
     }
 
     public static void sortOne( int []a,int k, int h){          
+        for (int j = k - 2; j >= 0 && a[j] < a[j + 1]; j--) {
+            swap(a, j, j+1);
+        }
+    }   
+    public static void compareRetEearly(int []a, int k , int n){
+        for (int i = k; i < n; i++) {         
+           if(a[i+1]>=a[k]){       
+                a[k] = a[i];
+                sortOneRetEarly(a, k, i+1);
+           } 
+        }
+    }
+
+    public static void sortOneRetEarly( int []a,int k, int h){          
         int t = a[h];
         for (int j = 0; j < k; j++) {               
             if(a[j]<=t ){ 
                 a[h] = a[j];
                 a[j] = t;
-                t = a[h];        
-                
-                 
+                t = a[h];  
+                return;
             }                              
         }
     }   

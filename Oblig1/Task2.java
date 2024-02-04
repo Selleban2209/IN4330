@@ -72,15 +72,9 @@ public class Task2 {
             
             InsertionSort.insertSort(numbers, begin, innerK-1);
             InsertionSort.compare(numbers, innerK-1, end-1);
-           // System.out.println(presentChunk(0, end));
             
-            try {
-                cb.await();
-                // System.out.println("begin "+ begin + " end "+ end+ " innerK "+ innerK + " nulte" + 0);
-            } catch (InterruptedException | BrokenBarrierException e) {
-                System.out.println("Failed...");
-                System.exit(-1);
-            }
+            //System.out.println(presentChunk(begin, end));
+        
             
         }
     
@@ -113,33 +107,34 @@ public class Task2 {
         while (threadsNum * k > n) threadsNum /= 2;
         Thread[] workers = new Thread[threadsNum];
         int[] BeginEndIndexes = new int[threadsNum];
-        cb = new CyclicBarrier(threadsNum+1); 
+      //  cb = new CyclicBarrier(threadsNum); 
         double timeStart = System.nanoTime() ;
         for (int i = 0; i <threadsNum; i++) {       
             int begin= n/threadsNum*i;
             int end = (n/threadsNum) * (i+1) ;
             if(i==threadsNum -1 )end = n;  
-            //System.out.println("begin "+ begin + " end "+ end )   ;
+          //  System.out.println("begin "+ begin + " end "+ end )   ;
             BeginEndIndexes[i] = begin;    
             workers[i] = new Worker(begin, end);
             workers[i].start();
         }
-        
-        
+
         try {
-            cb.await();
-        } catch (InterruptedException | BrokenBarrierException e) {
-            System.out.println("Failed...");
+            // Change the await to wait for all threads
+            for (Thread worker : workers) {
+                worker.join();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
             System.exit(-1);
         }
-
- 
-        combineResults(numbers, BeginEndIndexes);
-
         
+        
+        
+        combineResults(numbers, BeginEndIndexes);
         double elapsedTimeA2Par =  (System.nanoTime() - timeStart) / 1e6;
         
-        System.out.println("Sorted A2/w threads "+ Arrays.toString(numbers));
+        //System.out.println("Sorted A2/w threads "+ Arrays.toString(numbers));
         System.out.println("\nElapsed time A2Par: " + elapsedTimeA2Par + " ms");
 
         int[] A2Sort = numbers.clone();

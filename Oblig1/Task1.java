@@ -35,22 +35,23 @@ public class Task1 {
             InsertionSort sort = new InsertionSort();
             
             int[] regSort = numbers.clone();
-            long timeStartA1 = System.currentTimeMillis();
+           
+            double timeStartA1 = System.nanoTime();;
             Arrays.sort(regSort);
-            long timefinishA1 = System.currentTimeMillis();
-            long elapsedTimeA1 = timefinishA1 - timeStartA1;    
+            double elapsedTimeA1 =(System.nanoTime() - timeStartA1) / 1e6;;    
             //System.out.println("regular sort A1 " + Arrays.toString(regSort));
             timesA1[i]= elapsedTimeA1;
             System.out.println("Elapsed time A1: " + elapsedTimeA1 + " ms\n");
             
             int[] A2Sort = numbers.clone();
-            long timeStartA2 = System.currentTimeMillis();
+            double timeStartA2 = System.nanoTime();;
             InsertionSort.insertSort(A2Sort, 0, k - 1);
-            InsertionSort.compare(A2Sort, k-1, n - 1);
-            long timefinishA2 = System.currentTimeMillis();
-            long elapsedTimeA2 = timefinishA2 - timeStartA2;
+            InsertionSort.compare(A2Sort, k, n - 1);
+            double elapsedTimeA2 =(System.nanoTime() - timeStartA2) / 1e6;
             timesA2[i]= elapsedTimeA2;
-            System.out.println("after A2: " + Arrays.toString(A2Sort));
+           //System.out.println("after A2: " + Arrays.toString(A2Sort));
+            //System.out.println("after A2: " + Arrays.toString(numbers));
+
             System.out.println("Elapsed time A2: " + elapsedTimeA2 + " ms");
 
             System.out.println("\nTest done for K =" + k+ " N = " + n+"\n");

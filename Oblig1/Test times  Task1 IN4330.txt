@@ -17,4 +17,43 @@ N= 100000000
 
 
 
+
+
+
+Result for K=20 and N =1000
+
+Median time A1 for K= 20 N =1000: 0.3229ms
+
+Median time A2 for K= 20 N =1000: 0.0501ms
+
+Result for K=20 and N =10000
+Median time A1 for K= 20 N =10000: 1.026ms
+
+Median time A2 for K= 20 N =10000: 0.1939ms
+
+Result for K=20 and N =100000
+Median time A1 for K= 20 N =100000: 22.4093ms
+
+Median time A2 for K= 20 N =100000: 0.1784ms
+
+Result for K=20 and N =1000000
+Median time A1 for K= 20 N =1000000: 66.79ms
+
+Median time A2 for K= 20 N =1000000: 0.5931ms
+
+Result for K=20 and N =10000000
+Median time A1 for K= 20 N =10000000: 763.3727ms
+
+Median time A2 for K= 20 N =10000000: 6.2717ms
+
+Result for K=20 and N =100000000
+Median time A1 for K= 20 N =100000000: 9172.6188ms
+
+Median time A2 for K= 20 N =100000000: 61.4499ms
+Result for K=20 and N =1000000000
+
+
+
+
+
 Excel graph for oblig: Scatter diagram 
