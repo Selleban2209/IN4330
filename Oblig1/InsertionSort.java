@@ -29,7 +29,9 @@ public class InsertionSort {
             if(a[j]<=t ){ 
                 a[h] = a[j];
                 a[j] = t;
-                t = a[h];             
+                t = a[h];        
+                
+                 
             }                              
         }
     }   

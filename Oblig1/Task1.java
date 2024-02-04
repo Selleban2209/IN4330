@@ -50,7 +50,7 @@ public class Task1 {
             long timefinishA2 = System.currentTimeMillis();
             long elapsedTimeA2 = timefinishA2 - timeStartA2;
             timesA2[i]= elapsedTimeA2;
-           // System.out.println("after A2: " + Arrays.toString(A2Sort));
+            System.out.println("after A2: " + Arrays.toString(A2Sort));
             System.out.println("Elapsed time A2: " + elapsedTimeA2 + " ms");
 
             System.out.println("\nTest done for K =" + k+ " N = " + n+"\n");
