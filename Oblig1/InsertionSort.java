@@ -16,6 +16,7 @@ public class InsertionSort {
 
     public static void compare(int []a, int k , int n){
         for (int i = k; i < n; i++) {         
+           // System.out.println("swappe happened in compare between "+ a[i] + " and "+ a[k-1]);
            if(a[i]>=a[k-1]){       
                 swap(a, k-1, i);         
                 sortOne(a, k, i);
@@ -24,8 +25,11 @@ public class InsertionSort {
     }
 
     public static void sortOne( int []a,int k, int h){          
-        for (int j = k - 2; j >= 0 && a[j] < a[j + 1]; j--) {
-            swap(a, j, j+1);
+        for (int j = k - 2; j >= 0; j--) {
+            if( a[j] < a[j + 1]){
+                swap(a, j, j+1);
+                //  System.out.println("swappe happened in sortOne between "+ a[j] + " and "+ a[j+1]);
+            }
         }
     }   
     public static void compareRetEearly(int []a, int k , int n){
@@ -45,6 +49,7 @@ public class InsertionSort {
                 a[j] = t;
                 t = a[h];  
                 return;
+                
             }                              
         }
     }   
