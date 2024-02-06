@@ -50,8 +50,8 @@ public class Task1 {
             InsertionSort.compare(A2Sort, k, n - 1);
             double elapsedTimeA2 =(System.nanoTime() - timeStartA2) / 1e6;
             timesA2[i]= elapsedTimeA2;
+            System.out.println("after A2: " + Arrays.toString(numbers));
            System.out.println("after A2: " + Arrays.toString(A2Sort));
-            //System.out.println("after A2: " + Arrays.toString(numbers));
 
             System.out.println("Elapsed time A2: " + elapsedTimeA2 + " ms");
 

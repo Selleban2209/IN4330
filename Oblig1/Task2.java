@@ -21,12 +21,21 @@ public class Task2 {
         }
             return sb+"]";
     }
-    private static void combineResults(int[]a, int indexes[]){
+    private static void combineLargests(int[]a, int indexes[]){
         int [] largestKs= new int[k];
         int currentK;
         int nextK;
         int largest;
         int partJ;
+        /*
+        
+        System.out.println("largest k "+Arrays.toString(largestKs));  
+        for (int i = 0; i < indexes.length; i++) {
+            System.out.println("test "+ indexes[i] );
+            
+        } 
+        */
+        
         for (int i = 0; i < k; i++) {
            partJ=0;
            largest = a[indexes[0]];
@@ -54,7 +63,7 @@ public class Task2 {
                 InsertionSort.swap(a, i , i+k);
             }            
         }
-        //System.out.println("largest k "+Arrays.toString(largestKs));   
+       
     }
 
     static class Worker extends Thread {
@@ -73,6 +82,7 @@ public class Task2 {
             
             InsertionSort.insertSort(A2SortPar, begin, innerK-1);
             InsertionSort.compare(A2SortPar, innerK, end-1);
+          
             //System.out.println(presentChunk(begin, innerK));
          
             
@@ -80,8 +90,7 @@ public class Task2 {
     
     }
     public static void main(String[] args){
-    
-        
+  
         try {
             n = Integer.parseInt(args[0]);
             k = Integer.parseInt(args[1]);
@@ -96,7 +105,7 @@ public class Task2 {
             numbers[i] = random.nextInt(n);
         }
         
-       // System.out.println("before Sorted A2/w threads "+ Arrays.toString(numbers));
+        //System.out.println("before Sorted A2/w threads "+ Arrays.toString(numbers));
 
         //final int threads = 4; 
         int threadsNum = Runtime.getRuntime().availableProcessors();
@@ -112,18 +121,20 @@ public class Task2 {
             System.out.println("\n\nRun number: " + (j+1));
             
             while (threadsNum * k > n) threadsNum /= 2;
+           //slight optimization based on observation
+           // if( n < 1000000)threadsNum=4;
+            Worker[] workers = new Worker[threadsNum];
             System.out.println("number of threads "+ threadsNum);
-            Thread[] workers = new Thread[threadsNum];
             int[] BeginIndexes = new int[threadsNum];
             int[] EndIndexes = new int[threadsNum];
-
+           
              // cb = new CyclicBarrier(threadsNum); 
             double timeStart = System.nanoTime() ;
             for (int i = 0; i <threadsNum; i++) {       
-                int begin= n/threadsNum*i;
-                int end = (n/threadsNum) * (i+1) ;
+                int begin= (n/threadsNum)*i;
+                int end = (n/threadsNum) * (i+1);
                 if(i==threadsNum -1 )end = n;  
-            //  System.out.println("begin "+ begin + " end "+ end )   ;
+                // System.out.println("begin "+ begin + " end "+ end )   ;
                 BeginIndexes[i] = begin;  
                 EndIndexes [i] = end;
                 workers[i] = new Worker(begin, end);
@@ -131,7 +142,8 @@ public class Task2 {
             }
 
             try {
-                for (Thread worker : workers) {
+                for (Worker worker : workers) {
+                   // System.out.println("Thread finished");
                     worker.join();
                 }
             } catch (InterruptedException e) {
@@ -142,7 +154,8 @@ public class Task2 {
             
             //for (int i = 0; i < BeginIndexes.length; i++)System.out.println(presentChunk(BeginIndexes[i], EndIndexes[i]));     
             
-            combineResults(A2SortPar, BeginIndexes);
+            combineLargests(A2SortPar, BeginIndexes);
+            
             double elapsedTimeA2Par =  (System.nanoTime() - timeStart) / 1e6;
             timesA2Par[j]= elapsedTimeA2Par;
             //System.out.println("Sorted A2/w threads "+ Arrays.toString(A2SortPar));
@@ -160,7 +173,6 @@ public class Task2 {
             System.out.println("\nSpeed up: "+  elapsedTimeA2/elapsedTimeA2Par);
             speedUpTimes[j]=  elapsedTimeA2/elapsedTimeA2Par;
 
-
         }
         System.out.println("-----------------------------");
         System.out.println("\nTimes ran for K= " +k+ ", N ="+ n +": ");
@@ -173,5 +185,3 @@ public class Task2 {
     }
     
 }
-
-

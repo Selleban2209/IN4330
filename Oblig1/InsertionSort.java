@@ -1,4 +1,7 @@
+import java.util.stream.IntStream;
+
 public class InsertionSort {
+    static Object lock = new Object();
 
     public static void insertSort (int [] a, int v, int h) {
         int i, t;
@@ -15,21 +18,49 @@ public class InsertionSort {
     } //
 
     public static void compare(int []a, int k , int n){
+        //if(n ==0)System.out.println("how the fuck did this happend");
         for (int i = k; i < n; i++) {         
-           // System.out.println("swappe happened in compare between "+ a[i] + " and "+ a[k-1]);
            if(a[i]>a[k-1]){       
-                swap(a, k-1, i);         
-                sortOne(a, k, i);
+                //a[k-1] = a[i];     
+                swap(a, k-1, i);    
+                sortOne(a, k, k-1);
+           } 
+        }
+    }
+    public static void sortOne( int []a,int k, int h){          
+        for (int j = k - 2; j >= 0 ; j--) {
+            if( a[j] < a[j+1]){
+                //a[j+1] = a[h];
+                swap(a, j, j+1);
+              
+                //  System.out.println("swappe happened in sortOne between "+ a[j] + " and "+ a[j+1]);
+            } else {
+                return;
+                
+            }
+        }
+    }   
+    
+    public static void compare2(int []a, int k , int n){
+        //if(n ==0)System.out.println("how the fuck did this happend");
+        for (int i = k; i < n; i++) {         
+           if(a[i]>=a[k-1]){       
+               // swap(a, k-1, i);    
+               swap(a, k-1, i);     
+                sortOne2(a, k, k-1);
            } 
         }
     }
 
-    public static void sortOne( int []a,int k, int h){          
+    public static void sortOne2( int []a,int k, int h){   
+        int t =a[h];      
         for (int j = k - 2; j >= 0 ; j--) {
-            if( a[j] <= a[j + 1]){
-                swap(a, j, j+1);
+            if( a[j]<=t){
+                //a[j+1] = a[h];
+                swap(a, j, h);
+                return;
                 //  System.out.println("swappe happened in sortOne between "+ a[j] + " and "+ a[j+1]);
-            } else break;
+            }
         }
     }   
     public static void compareRetEearly(int []a, int k , int n){
@@ -45,9 +76,7 @@ public class InsertionSort {
         int t = a[h];
         for (int j = 0; j < k; j++) {               
             if(a[j]<=t ){ 
-                a[h] = a[j];
-                a[j] = t;
-                t = a[h];  
+               swap(a, j, h);  
                 return;
                 
             }                              
