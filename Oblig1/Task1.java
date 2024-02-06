@@ -29,6 +29,7 @@ public class Task1 {
         //testRun(numbers, K, Ns);
         double[] timesA1 = new double[7];
         double[] timesA2 = new double[7];
+        double[] speedUpTimes = new double[7];
         for (int i = 0; i < 7; i++) {
             
             System.out.println("\n\nRun number: " + (i+1)+ "\n");
@@ -49,18 +50,22 @@ public class Task1 {
             InsertionSort.compare(A2Sort, k, n - 1);
             double elapsedTimeA2 =(System.nanoTime() - timeStartA2) / 1e6;
             timesA2[i]= elapsedTimeA2;
-           //System.out.println("after A2: " + Arrays.toString(A2Sort));
+           System.out.println("after A2: " + Arrays.toString(A2Sort));
             //System.out.println("after A2: " + Arrays.toString(numbers));
 
             System.out.println("Elapsed time A2: " + elapsedTimeA2 + " ms");
 
             System.out.println("\nTest done for K =" + k+ " N = " + n+"\n");
 
+            speedUpTimes[i]=  elapsedTimeA1/elapsedTimeA2;
         }
+        System.out.println("-----------------------------");
         Arrays.sort(timesA1);
-        System.out.println("Median time A1 for K= " +k+ " N ="+ n +": " +timesA1[3]+ "ms");
+        System.out.println("Median time A1 of 7 runs for K= " +k+ " N ="+ n +": " +timesA1[3]+ "ms");
         Arrays.sort(timesA2);
-        System.out.println("\nMedian time A2 for K= " +k+ " N ="+ n +": " +timesA2[3]+ "ms");
+        System.out.println("\nMedian time A2 of 7 runs for K= " +k+ " N ="+ n +": " +timesA2[3]+ "ms");
+        Arrays.sort(speedUpTimes);
+        System.out.println("\nMedian time speed up of A1/A2: " +speedUpTimes[3]);
     }
     
 }

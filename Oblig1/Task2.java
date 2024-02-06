@@ -16,7 +16,7 @@ public class Task2 {
     private static String presentChunk (int begin, int end ){
         StringBuilder sb = new StringBuilder("[");
         for (int i = begin; i < end; i++) {
-            sb.append(numbers[i]);
+            sb.append(A2SortPar[i]);
             if (i < end -1) sb.append(" ");
         }
             return sb+"]";
@@ -70,12 +70,11 @@ public class Task2 {
         
         @Override
         public void run(){
-            //System.out.println(presentChunk(begin, end));
             
             InsertionSort.insertSort(A2SortPar, begin, innerK-1);
-            InsertionSort.compareRetEearly(A2SortPar, innerK-1, end-1);
-            
-        
+            InsertionSort.compare(A2SortPar, innerK, end-1);
+            //System.out.println(presentChunk(begin, innerK));
+         
             
         }
     
@@ -113,11 +112,12 @@ public class Task2 {
             System.out.println("\n\nRun number: " + (j+1));
             
             while (threadsNum * k > n) threadsNum /= 2;
+            System.out.println("number of threads "+ threadsNum);
             Thread[] workers = new Thread[threadsNum];
             int[] BeginIndexes = new int[threadsNum];
             int[] EndIndexes = new int[threadsNum];
 
-        //  cb = new CyclicBarrier(threadsNum); 
+             // cb = new CyclicBarrier(threadsNum); 
             double timeStart = System.nanoTime() ;
             for (int i = 0; i <threadsNum; i++) {       
                 int begin= n/threadsNum*i;
@@ -138,7 +138,10 @@ public class Task2 {
                 e.printStackTrace();
                 System.exit(-1);
             }
-    
+           // System.out.println("before combine threads "+ Arrays.toString(A2SortPar));
+            
+            //for (int i = 0; i < BeginIndexes.length; i++)System.out.println(presentChunk(BeginIndexes[i], EndIndexes[i]));     
+            
             combineResults(A2SortPar, BeginIndexes);
             double elapsedTimeA2Par =  (System.nanoTime() - timeStart) / 1e6;
             timesA2Par[j]= elapsedTimeA2Par;
@@ -159,16 +162,12 @@ public class Task2 {
 
 
         }
-
         System.out.println("-----------------------------");
-
         System.out.println("\nTimes ran for K= " +k+ ", N ="+ n +": ");
         Arrays.sort(timesA2);
         System.out.println("\nMedian time A2  of 7 runs for K= " +k+ " N ="+ n +": " +timesA2[3]+ "ms");
-
         Arrays.sort(timesA2Par);
-        System.out.println("\nMedian time A2 parallelized of 7 runs A2 for K= " +k+ " N ="+ n +": " +timesA2Par[3]+ "ms");
-      
+        System.out.println("\nMedian time A2 parallelized of 7 runs A2 for K= " +k+ " N ="+ n +": " +timesA2Par[3]+ "ms"); 
         Arrays.sort(speedUpTimes);
         System.out.println("\nMedian time speed up of A2/A2Par: " +speedUpTimes[3]);
     }
