@@ -34,19 +34,15 @@ public class InsertionSort {
                 swap(a, j, j+1);
               
                 //  System.out.println("swappe happened in sortOne between "+ a[j] + " and "+ a[j+1]);
-            } else {
-                return;
-                
-            }
+            } else return;
         }
     }   
     
     public static void compare2(int []a, int k , int n){
-        //if(n ==0)System.out.println("how the fuck did this happend");
         for (int i = k; i < n; i++) {         
-           if(a[i]>=a[k-1]){       
-               // swap(a, k-1, i);    
-               swap(a, k-1, i);     
+           if(a[i]>a[k-1]){       
+                //a[k-1] = a[i];     
+                swap(a, k-1, i);     
                 sortOne2(a, k, k-1);
            } 
         }
@@ -55,9 +51,10 @@ public class InsertionSort {
     public static void sortOne2( int []a,int k, int h){   
         int t =a[h];      
         for (int j = k - 2; j >= 0 ; j--) {
-            if( a[j]<=t){
+            if( a[j]<t){
                 //a[j+1] = a[h];
                 swap(a, j, h);
+       
                 return;
                 //  System.out.println("swappe happened in sortOne between "+ a[j] + " and "+ a[j+1]);
             }
