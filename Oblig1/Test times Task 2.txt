@@ -1,3 +1,8 @@
+Test times IN4330 Task 2
+
+
+
+-----------------------------
 Times ran for K= 20, N =1000:
 
 Median time A2  of 7 runs for K= 20 N =1000: 0.0907ms
