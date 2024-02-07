@@ -18,85 +18,94 @@ N= 100000000
 
 
 
+-----------------------------
+Median time A1 of 7 runs for K= 20 N =1000: 0.5483ms
+
+Median time A2 of 7 runs for K= 20 N =1000: 0   .1817ms
+
+Median time speed up of A1/A2: 6.835955056179777
+
+-----------------------------
+Median time A1 of 7 runs for K= 20 N =10000: 1.2838ms
+
+Median time A2 of 7 runs for K= 20 N =10000: 0.3977ms
+
+Median time speed up of A1/A2: 3.9987368421052634
+
+-----------------------------
+Median time A1 of 7 runs for K= 20 N =100000: 39.7402ms
+
+Median time A2 of 7 runs for K= 20 N =100000: 0.1627ms
+
+Median time speed up of A1/A2: 122.76861291319123
+
+-----------------------------
+Median time A1 of 7 runs for K= 20 N =1000000: 111.792ms
+
+Median time A2 of 7 runs for K= 20 N =1000000: 0.6049ms
+
+Median time speed up of A1/A2: 190.07273929575135
 
 
-Result for K=20 and N =1000
+-----------------------------
+Median time A1 of 7 runs for K= 20 N =10000000: 1008.2106ms
 
-Median time A1 for K= 20 N =1000: 0.3229ms
+Median time A2 of 7 runs for K= 20 N =10000000: 8.1389ms
 
-Median time A2 for K= 20 N =1000: 0.0501ms
+Median time speed up of A1/A2: 120.9451645799801
 
-Result for K=20 and N =10000
-Median time A1 for K= 20 N =10000: 1.026ms
+-----------------------------
+Median time A1 of 7 runs for K= 20 N =100000000: 8989.9728ms
 
-Median time A2 for K= 20 N =10000: 0.1939ms
+Median time A2 of 7 runs for K= 20 N =100000000: 51.9753ms
 
-Result for K=20 and N =100000
-Median time A1 for K= 20 N =100000: 22.4093ms
-
-Median time A2 for K= 20 N =100000: 0.1784ms
-
-Result for K=20 and N =1000000
-Median time A1 for K= 20 N =1000000: 66.79ms
-
-Median time A2 for K= 20 N =1000000: 0.5931ms
-
-Result for K=20 and N =10000000
-Median time A1 for K= 20 N =10000000: 763.3727ms
-
-Median time A2 for K= 20 N =10000000: 6.2717ms
-
-Result for K=20 and N =100000000
-Median time A1 for K= 20 N =100000000: 9172.6188ms
-
-Median time A2 for K= 20 N =100000000: 61.4499ms
-Result for K=20 and N =1000000000
+Median time speed up of A1/A2: 168.68402298784233
 
 
 
 K=100 
 
+-----------------------------
+Median time A1 of 7 runs for K= 100 N =1000: 0.4518ms
 
-Median time A1 for K= 100 N =1000: 0.5511ms
+Median time A2 of 7 runs for K= 100 N =1000: 0.178ms
 
-Median time A2 for K= 100 N =1000: 0.2776ms
-
-Median time speed up of A1/A2: 1.7307692307692308
+Median time speed up of A1/A2: 2.1154362416107384
 
 -----------------------------
-Median time A1 for K= 100 N =10000: 1.442ms
+Median time A1 of 7 runs for K= 100 N =10000: 1.0268ms
 
-Median time A2 for K= 100 N =10000: 0.9806ms
+Median time A2 of 7 runs for K= 100 N =10000: 0.5675ms
 
-Median time speed up of A1/A2: 1.5449843260188088
-
------------------------------
-Median time A1 for K= 100 N =100000: 9.0947ms
-
-Median time A2 for K= 100 N =100000: 0.3602ms
-
-Median time speed up of A1/A2: 32.377002491990034
+Median time speed up of A1/A2: 1.7262213830540476
 
 -----------------------------
-Median time A1 for K= 100 N =1000000: 104.3395ms
+Median time A1 of 7 runs for K= 100 N =100000: 8.7599ms
 
-Median time A2 for K= 100 N =1000000: 1.2753ms
+Median time A2 of 7 runs for K= 100 N =100000: 0.1705ms
 
-Median time speed up of A1/A2: 76.74703869439327
+Median time speed up of A1/A2: 37.31612903225806
+
 -----------------------------
+Median time A1 of 7 runs for K= 100 N =1000000: 60.3874ms
 
-Median time A1 for K= 100 N =10000000: 1029.3387ms
+Median time A2 of 7 runs for K= 100 N =1000000: 0.4884ms
 
-Median time A2 for K= 100 N =10000000: 10.4756ms
+Median time speed up of A1/A2: 122.94740073679903
 
-Median time speed up of A1/A2: 96.98489823971897
 -----------------------------
+Median time A1 of 7 runs for K= 100 N =10000000: 595.6875ms
 
-Median time A1 for K= 100 N =100000000: 8925.6894ms
+Median time A2 of 7 runs for K= 100 N =10000000: 5.4662ms
 
-Median time A2 for K= 100 N =100000000: 69.7639ms
+Median time speed up of A1/A2: 106.79945849035893
 
-Median time speed up of A1/A2: 128.74265141779063
+-----------------------------
+Median time A1 of 7 runs for K= 100 N =100000000: 6966.7103ms
+
+Median time A2 of 7 runs for K= 100 N =100000000: 47.2557ms
+
+Median time speed up of A1/A2: 149.5517984451533
 
 
 
