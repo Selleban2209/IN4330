@@ -26,8 +26,6 @@ public class Task2 {
     private static void combineLargests(int[]a, int indexes[]){
         //Finds k largest from each chunk, then sorts them into k-1
         int [] largestKs= new int[k];
-        int currentK;
-        int nextK;
         int largest;
         int partJ;
         for (int i = 0; i < k; i++) {
@@ -39,7 +37,6 @@ public class Task2 {
                     largest = a[indexes[j]];
                 }                          
             }
-            //System.out.println("currentK " + currentK+ " nextK " + nextK);
             largestKs[i] = indexes[partJ];
             indexes[partJ]++;
         }
