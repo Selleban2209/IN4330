@@ -113,6 +113,39 @@ public class Oblig2Precode {
 		}
 		return matrix;
 	}
+
+	
+	public static double[][] multMetrix(double a[][], double b[][],int n, Oblig2Precode.Mode op){
+		// Clearly O(n^3)
+		double[][] c = new double[n][n];
+		switch (op) {
+            case SEQ_NOT_TRANSPOSED:   
+				for(int i=0;i<n;i++)
+					for(int j=0;j<n;j++)
+						for(int k=0;k<n;k++)
+							c[i][j] += a[i][k] * b[k][j];
+					break;
+            case SEQ_A_TRANSPOSED:
+				for(int i=0;i<n;i++)
+					for(int j=0;j<n;j++)
+						for(int k=0;k<n;k++)
+							c[i][j] += a[k][i] * b[k][j];
+            	break;
+            case  SEQ_B_TRANSPOSED:  
+				for(int i=0;i<n;i++)
+					for(int j=0;j<n;j++)
+						for(int k=0;k<n;k++)
+							c[i][j] += a[i][k] * b[j][k]; 
+            	break;
+            default:
+                break;
+        }
+		
+		return c;
+	}
+	
+	
+
 	/**
 	 * Method for saving your result to a file.
 	 *
