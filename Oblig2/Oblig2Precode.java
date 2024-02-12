@@ -116,6 +116,7 @@ public class Oblig2Precode {
 
 	
 	public static double[][] multMetrix(double a[][], double b[][],int n, Oblig2Precode.Mode op){
+		// Do the multiplication
 		// Clearly O(n^3)
 		double[][] c = new double[n][n];
 		switch (op) {
@@ -145,7 +146,6 @@ public class Oblig2Precode {
 	}
 	
 	
-
 	/**
 	 * Method for saving your result to a file.
 	 *

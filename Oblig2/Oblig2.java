@@ -17,9 +17,13 @@ public class Oblig2 {
                System.exit(0);
            }
 
-        Seq.RunSeq(seed, n, Oblig2Precode.Mode.SEQ_NOT_TRANSPOSED);
-        Seq.RunSeq(seed, n, Oblig2Precode.Mode.SEQ_A_TRANSPOSED);
-        Seq.RunSeq(seed, n, Oblig2Precode.Mode.SEQ_B_TRANSPOSED);
+        double[] timesNotTransposed=  Seq.RunSeq(seed, n, Oblig2Precode.Mode.SEQ_NOT_TRANSPOSED);
+        double[] timesATransposed = Seq.RunSeq(seed, n, Oblig2Precode.Mode.SEQ_A_TRANSPOSED);
+        double[] timesBTransposed = Seq.RunSeq(seed, n, Oblig2Precode.Mode.SEQ_B_TRANSPOSED);
+
+        System.out.println("Median times of 7 runs for SEQ_NOT_TRANSPOSED: "+timesNotTransposed[3]+"ms");
+        System.out.println("Median times of 7 runs for SEQ_A_TRANSPOSED: "+timesATransposed[3]+"ms");
+        System.out.println("Median times of 7 runs for SEQ_B_TRANSPOSED: "+timesBTransposed[3]+"ms");
         
     }
 }
