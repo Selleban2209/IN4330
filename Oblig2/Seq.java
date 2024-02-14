@@ -26,20 +26,21 @@ public class Seq {
 				default:
                 break;
 			}
-			// The result matrix
-			
-			c = Oblig2Precode.multMetrix(a, b, n, operation);
+			// The result matrix		
+			c = Oblig2Precode.multMetrix(a, b,c, 0,n,n,operation);
 			double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
 			timesRunSeq[i]= elapsedTime;
 		}
 
 		Arrays.sort(timesRunSeq);
 
-		// Save the result
-
 		
+
+		// Save the result	
 		Oblig2Precode.saveResult(seed, operation, c);
+		
 		return timesRunSeq;
+
 	}
     
 }

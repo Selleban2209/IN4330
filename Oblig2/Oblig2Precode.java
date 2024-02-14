@@ -1,4 +1,5 @@
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -115,25 +116,28 @@ public class Oblig2Precode {
 	}
 
 	
-	public static double[][] multMetrix(double a[][], double b[][],int n, Oblig2Precode.Mode op){
+	public static double[][] multMetrix(double a[][], double b[][],double c[][],int s, int endr, int n ,Oblig2Precode.Mode op){
 		// Do the multiplication
-		// Clearly O(n^3)
-		double[][] c = new double[n][n];
+		// Clearly O(n^3)	
+		double[][] tempC = c;
 		switch (op) {
-            case SEQ_NOT_TRANSPOSED:   
-				for(int i=0;i<n;i++)
+            case SEQ_NOT_TRANSPOSED : 
+			case PARA_NOT_TRANSPOSED:
+				for(int i=s;i<endr;i++)
 					for(int j=0;j<n;j++)
 						for(int k=0;k<n;k++)
-							c[i][j] += a[i][k] * b[k][j];
+						 	c[i][j] += a[i][k] * b[k][j];
 					break;
             case SEQ_A_TRANSPOSED:
-				for(int i=0;i<n;i++)
-					for(int j=0;j<n;j++)
+            case PARA_A_TRANSPOSED:
+				for(int i=s;i<endr;i++)
+					for(int j=0;j<n;j++)					
 						for(int k=0;k<n;k++)
-							c[i][j] += a[k][i] * b[k][j];
+							c[i][j] += a[k][i] * b[k][j]; 				
             	break;
             case  SEQ_B_TRANSPOSED:  
-				for(int i=0;i<n;i++)
+            case  PARA_B_TRANSPOSED:  
+				for(int i=s;i<endr;i++)
 					for(int j=0;j<n;j++)
 						for(int k=0;k<n;k++)
 							c[i][j] += a[i][k] * b[j][k]; 
@@ -141,8 +145,10 @@ public class Oblig2Precode {
             default:
                 break;
         }
-		
-		return c;
+		//System.out.println(Arrays.deepToString(tempC));
+		//System.out.println(Arrays.deepEquals(c, tempC));
+		return tempC;
+
 	}
 	
 	
