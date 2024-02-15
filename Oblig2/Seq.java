@@ -2,7 +2,11 @@ import java.util.Arrays;
 
 public class Seq {
 
-    
+        
+
+
+	public 	static double[][] c;
+
 	public static double[] RunSeq(int seed, int n, Oblig2Precode.Mode operation ) {
 
 		// Get the matrices
@@ -10,10 +14,9 @@ public class Seq {
 		double[][] b = Oblig2Precode.generateMatrixB(seed, n);
 	
 		double[] timesRunSeq = new double[7];
-		double[][] c = new double[n][n];
         for (int i = 0; i < 7 ; i++) {
+			c = new double[n][n];
 			double timeStart = System.nanoTime();;
-			
 			switch (operation) {
 				case SEQ_NOT_TRANSPOSED:   
 				break;

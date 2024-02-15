@@ -5,27 +5,24 @@ import java.util.concurrent.CyclicBarrier;
 public class Par {
     
 
-	public static int n;
 	public 	static double[][] c;
 	public static int threadsNum;
 	
-	public static void deepCheck( double [][] a, double [][] b,double [][] c, int n,  Oblig2Precode.Mode operation){
+	public static boolean deepCheckCompare( double [][] a, double [][] b,double [][] c, int n,  Oblig2Precode.Mode operation){
 
+		//Prints an error 
 		double [][] expected = new double[n][n];
 		expected =  Oblig2Precode.multMetrix(a, b,expected, 0,n,n,operation);
-		//System.out.println(Arrays.deepToString(expected));
 		if(!Arrays.deepEquals(expected, c)){ 
-			System.out.println("Wrong multplication");
-			//printDifferenceIndices(c,expected);	
-		}else {
-			//System.out.println("Correct multplication");
-		}		
+			printDifferenceIndices(expected, c);
+			return false;	
+		}
+		return true;
 	}
 
 	public static void printDifferenceIndices(double[][] arr1, double[][] arr2) {
         int rows = arr1.length;
         int cols = arr1[0].length;
-
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (arr1[i][j] != arr2[i][j]) {
@@ -57,26 +54,22 @@ public class Par {
 		}
 
 		@Override
-		public void run() {
-		
-			c = Oblig2Precode.multMetrix(a, b,c ,start, end, localN,op);
-
-			
+		public void run() {		
+			c = Oblig2Precode.multMetrix(a, b,c ,start, end, localN,op);	
 		}
 		
 		
 	}
 	public static double[] RunPar(int seed, int n, Oblig2Precode.Mode operation ) {
 
-
 		// Get the matrices
 		double[][] a = Oblig2Precode.generateMatrixA(seed, n);
 		double[][] b = Oblig2Precode.generateMatrixB(seed, n);
 	
 		double[] timesRunSeq = new double[7];
-		c = new double[n][n];
 		threadsNum = Runtime.getRuntime().availableProcessors();
         for (int i = 0; i < 7 ; i++) {
+			c = new double[n][n];
 			double timeStart = System.nanoTime();
 			switch (operation) {
 				case PARA_NOT_TRANSPOSED:   
@@ -121,7 +114,9 @@ public class Par {
 		
 		Arrays.sort(timesRunSeq);
 		
-		deepCheck(a, b, c, n, operation);
+
+		//Compares sequential with paralel results, prints error if comparison fails
+		 if(!deepCheckCompare(a, b, c, n, operation)) System.out.println("Wrong multplication");
 
 		// Save the result	
 		Oblig2Precode.saveResult(seed, operation, c);
