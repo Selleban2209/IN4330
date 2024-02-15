@@ -127,7 +127,7 @@ public class Oblig2Precode {
 					for(int j=0;j<n;j++)
 						for(int k=0;k<n;k++)
 						 	c[i][j] += a[i][k] * b[k][j];
-					break;
+				break;
             case SEQ_A_TRANSPOSED:
             case PARA_A_TRANSPOSED:
 				for(int i=s;i<endr;i++)
@@ -147,7 +147,7 @@ public class Oblig2Precode {
         }
 		//System.out.println(Arrays.deepToString(tempC));
 		//System.out.println(Arrays.deepEquals(c, tempC));
-		return tempC;
+		return c;
 
 	}
 	

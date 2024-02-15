@@ -34,8 +34,8 @@ public class Seq {
 
 		Arrays.sort(timesRunSeq);
 
-		
-
+		//System.out.println("seq print \n");
+		//System.out.println(Arrays.deepToString(c));
 		// Save the result	
 		Oblig2Precode.saveResult(seed, operation, c);
 		
