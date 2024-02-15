@@ -61,3 +61,71 @@ Median speed up of 7 runs for A_TRANSPOSED: 4,532
 Median speed up of 7 runs for B_TRANSPOSED: 7,443
 
 Tests done for n = 1000 seed = 42
+
+
+
+Computing Specification used for seccond set of testing
+
+Processor is an Intel(R) Core(TM) i5-9400F , 2,90 GHZ with 6 cores and 6 logical processors
+
+
+Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: 4.779ms
+Median times of 7 runs for SEQ_A_TRANSPOSED: sequential: 4.6742ms
+Median times of 7 runs for SEQ_B_TRANSPOSED sequential: 4.7152ms
+
+Median times of 7 runs for PARA_NOT_TRANSPOSED: 1.5743ms
+Median times of 7 runs for PARA_A_TRANSPOSED: 0.9686ms
+Median times of 7 runs for PARA_B_TRANSPOSED: 1.0032ms
+
+Median speed up of 7 runs for NOT_TRANSPOSED: 3,036
+Median speed up of 7 runs for A_TRANSPOSED: 4,826
+Median speed up of 7 runs for B_TRANSPOSED: 4,700
+
+Tests done for n = 100 seed = 42
+
+-------------------------------------------------------------------
+
+Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: 9.5045ms
+Median times of 7 runs for SEQ_A_TRANSPOSED: sequential: 17.1814ms
+Median times of 7 runs for SEQ_B_TRANSPOSED sequential: 18.6065ms
+
+Median times of 7 runs for PARA_NOT_TRANSPOSED: 2.1315ms
+Median times of 7 runs for PARA_A_TRANSPOSED: 3.493ms
+Median times of 7 runs for PARA_B_TRANSPOSED: 1.7388ms
+
+Median speed up of 7 runs for NOT_TRANSPOSED: 4,459
+Median speed up of 7 runs for A_TRANSPOSED: 4,919
+Median speed up of 7 runs for B_TRANSPOSED: 10,701
+
+Tests done for n = 200 seed = 42
+
+-----------------------------------------------------------------
+
+Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: 206.5647ms
+Median times of 7 runs for SEQ_A_TRANSPOSED: sequential: 317.6539ms
+Median times of 7 runs for SEQ_B_TRANSPOSED sequential: 127.7715ms
+
+Median times of 7 runs for PARA_NOT_TRANSPOSED: 35.7456ms
+Median times of 7 runs for PARA_A_TRANSPOSED: 54.2296ms
+Median times of 7 runs for PARA_B_TRANSPOSED: 23.5702ms
+
+Median speed up of 7 runs for NOT_TRANSPOSED: 5,779
+Median speed up of 7 runs for A_TRANSPOSED: 5,858
+Median speed up of 7 runs for B_TRANSPOSED: 5,421
+
+Tests done for n = 500 seed = 42
+
+-----------------------------------------------------------
+
+Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: 4229.618ms
+Median times of 7 runs for SEQ_A_TRANSPOSED: sequential: 12433.5595ms
+Median times of 7 runs for SEQ_B_TRANSPOSED sequential: 1101.6442ms
+
+Median times of 7 runs for PARA_NOT_TRANSPOSED: 880.6654ms
+Median times of 7 runs for PARA_A_TRANSPOSED: 2476.1677ms
+Median times of 7 runs for PARA_B_TRANSPOSED: 194.9271ms
+
+Median speed up of 7 runs for NOT_TRANSPOSED: 4,803
+Median speed up of 7 runs for A_TRANSPOSED: 5,021
+Median speed up of 7 runs for B_TRANSPOSED: 5,652
+
