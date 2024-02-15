@@ -1,0 +1,63 @@
+Computing Specification used for testing
+
+Processor is an AMD Ryzen 5 5625U, 2,30 GHZ with 6 cores and 12 logical processors
+
+Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: 5.0269ms
+Median times of 7 runs for SEQ_A_TRANSPOSED: sequential: 1.8601ms
+Median times of 7 runs for SEQ_B_TRANSPOSED sequential: 5.0665ms
+
+Median times of 7 runs for PARA_NOT_TRANSPOSED: 2.2283ms
+Median times of 7 runs for PARA_A_TRANSPOSED: 2.4704ms
+Median times of 7 runs for PARA_B_TRANSPOSED: 2.2701ms
+
+Median speed up of 7 runs for NOT_TRANSPOSED: 2,256
+Median speed up of 7 runs for A_TRANSPOSED: 0,753
+Median speed up of 7 runs for B_TRANSPOSED: 2,232
+
+Tests done for n = 100 seed = 42
+
+----------------------------------------------------
+
+Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: 39.4407ms
+Median times of 7 runs for SEQ_A_TRANSPOSED: sequential: 27.6207ms
+Median times of 7 runs for SEQ_B_TRANSPOSED sequential: 39.3565ms
+
+Median times of 7 runs for PARA_NOT_TRANSPOSED: 6.6124ms
+Median times of 7 runs for PARA_A_TRANSPOSED: 9.9274ms
+Median times of 7 runs for PARA_B_TRANSPOSED: 2.833ms
+
+Median speed up of 7 runs for NOT_TRANSPOSED: 5,965
+Median speed up of 7 runs for A_TRANSPOSED: 2,782
+Median speed up of 7 runs for B_TRANSPOSED: 13,892
+
+Tests done for n = 200 seed = 42
+---------------------------------------------------------------
+
+Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: 277.4721ms
+Median times of 7 runs for SEQ_A_TRANSPOSED: sequential: 473.9443ms
+Median times of 7 runs for SEQ_B_TRANSPOSED sequential: 154.2993ms
+
+Median times of 7 runs for PARA_NOT_TRANSPOSED: 59.2158ms
+Median times of 7 runs for PARA_A_TRANSPOSED: 128.2015ms
+Median times of 7 runs for PARA_B_TRANSPOSED: 23.7307ms
+
+Median speed up of 7 runs for NOT_TRANSPOSED: 4,686
+Median speed up of 7 runs for A_TRANSPOSED: 3,697
+Median speed up of 7 runs for B_TRANSPOSED: 6,502
+
+Tests done for n = 500 seed = 42
+
+-------------------------------------------------------------------------
+Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: 3225.2285ms
+Median times of 7 runs for SEQ_A_TRANSPOSED: sequential: 9687.5781ms
+Median times of 7 runs for SEQ_B_TRANSPOSED sequential: 937.1583ms
+
+Median times of 7 runs for PARA_NOT_TRANSPOSED: 939.0549ms
+Median times of 7 runs for PARA_A_TRANSPOSED: 2137.7327ms
+Median times of 7 runs for PARA_B_TRANSPOSED: 125.9043ms
+
+Median speed up of 7 runs for NOT_TRANSPOSED: 3,435
+Median speed up of 7 runs for A_TRANSPOSED: 4,532
+Median speed up of 7 runs for B_TRANSPOSED: 7,443
+
+Tests done for n = 1000 seed = 42

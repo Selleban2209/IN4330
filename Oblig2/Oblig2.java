@@ -23,9 +23,9 @@ public class Oblig2 {
         double[] timesBTransposed = Seq.RunSeq(seed, n, Oblig2Precode.Mode.SEQ_B_TRANSPOSED);
         double[] timesATransposed = Seq.RunSeq(seed, n, Oblig2Precode.Mode.SEQ_A_TRANSPOSED);
 
-        double[] timesNotTransposedPar=  Par.RunPar(seed, n, Oblig2Precode.Mode.PARA_NOT_TRANSPOSED);
-        double[] timesATransposedPar=  Par.RunPar(seed, n, Oblig2Precode.Mode.PARA_A_TRANSPOSED);
-        double[] timesBTransposedPar=  Par.RunPar(seed, n, Oblig2Precode.Mode.PARA_B_TRANSPOSED);
+        double[] timesNotTransposedPar = Par.RunPar(seed, n, Oblig2Precode.Mode.PARA_NOT_TRANSPOSED);
+        double[] timesATransposedPar = Par.RunPar(seed, n, Oblig2Precode.Mode.PARA_A_TRANSPOSED);
+        double[] timesBTransposedPar = Par.RunPar(seed, n, Oblig2Precode.Mode.PARA_B_TRANSPOSED);
 
 
         System.out.println("Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: "+timesNotTransposed[3]+"ms");  
@@ -41,6 +41,7 @@ public class Oblig2 {
         System.out.println("Median speed up of 7 runs for A_TRANSPOSED: " +String.format("%.3f",(timesATransposed[3]/timesATransposedPar[3])));
         System.out.println("Median speed up of 7 runs for B_TRANSPOSED: " +String.format("%.3f",(timesBTransposed[3]/timesBTransposedPar[3])));
        
+        System.out.println("\nTests done for n = "+ n + " seed = "+ seed);
 
 
         
