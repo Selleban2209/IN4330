@@ -4,7 +4,7 @@ import java.util.concurrent.CyclicBarrier;
 
 public class Par {
     
-
+	
 	public 	static double[][] c;
 	public static int threadsNum;
 	
@@ -40,8 +40,6 @@ public class Par {
 		public double b[][];
 		Oblig2Precode.Mode op;
 		int localN;
-		
-
 
 		public Worker(int start, int end,int localN, double a[][], double b[][], Oblig2Precode.Mode  op){
 			this.start= start;
@@ -49,17 +47,15 @@ public class Par {
 			this.localN = localN;
 			this.a= a;
 			this.b = b;
-			this.op = op;
-			
+			this.op = op;	
 		}
 
 		@Override
 		public void run() {		
 			c = Oblig2Precode.multMetrix(a, b,c ,start, end, localN,op);	
-		}
-		
-		
+		}		
 	}
+
 	public static double[] RunPar(int seed, int n, Oblig2Precode.Mode operation ) {
 
 		// Get the matrices

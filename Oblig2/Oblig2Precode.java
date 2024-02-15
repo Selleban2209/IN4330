@@ -119,7 +119,6 @@ public class Oblig2Precode {
 	public static double[][] multMetrix(double a[][], double b[][],double c[][],int s, int endr, int n ,Oblig2Precode.Mode op){
 		// Do the multiplication
 		// Clearly O(n^3)	
-		double[][] tempC = c;
 		switch (op) {
             case SEQ_NOT_TRANSPOSED : 
 			case PARA_NOT_TRANSPOSED:
@@ -135,8 +134,8 @@ public class Oblig2Precode {
 						for(int k=0;k<n;k++)
 							c[i][j] += a[k][i] * b[k][j]; 				
             	break;
-            case  SEQ_B_TRANSPOSED:  
-            case  PARA_B_TRANSPOSED:  
+            case SEQ_B_TRANSPOSED:  
+            case PARA_B_TRANSPOSED:  
 				for(int i=s;i<endr;i++)
 					for(int j=0;j<n;j++)
 						for(int k=0;k<n;k++)
@@ -145,10 +144,7 @@ public class Oblig2Precode {
             default:
                 break;
         }
-		//System.out.println(Arrays.deepToString(tempC));
-		//System.out.println(Arrays.deepEquals(c, tempC));
 		return c;
-
 	}
 	
 	

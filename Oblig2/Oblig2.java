@@ -10,6 +10,7 @@ public class Oblig2 {
         try {
             seed = Integer.parseInt(args[0]);
             n = Integer.parseInt(args[1]);
+            // operation as an argument
             //op = args[2];
            // operation = Oblig2Precode.Mode.valueOf(op.toUpperCase());
            } catch (Exception e) {
@@ -34,6 +35,14 @@ public class Oblig2 {
         System.out.println("\nMedian times of 7 runs for PARA_NOT_TRANSPOSED: " +timesNotTransposedPar[3]+"ms");
         System.out.println("Median times of 7 runs for PARA_A_TRANSPOSED: " +timesATransposedPar[3]+"ms");
         System.out.println("Median times of 7 runs for PARA_B_TRANSPOSED: " +timesBTransposedPar[3]+"ms");
+
+
+        System.out.println("\nMedian speed up of 7 runs for NOT_TRANSPOSED: " +String.format("%.3f", (timesNotTransposed[3]/timesNotTransposedPar[3])));
+        System.out.println("Median speed up of 7 runs for A_TRANSPOSED: " +String.format("%.3f",(timesATransposed[3]/timesATransposedPar[3])));
+        System.out.println("Median speed up of 7 runs for B_TRANSPOSED: " +String.format("%.3f",(timesBTransposed[3]/timesBTransposedPar[3])));
+       
+
+
         
     }
 }
