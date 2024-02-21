@@ -14,7 +14,7 @@ public class Oblig2 {
             //op = args[2];
            // operation = Oblig2Precode.Mode.valueOf(op.toUpperCase());
            } catch (Exception e) {
-               System.out.println("Usage: Exampe.java <seed> <n> ");
+               System.out.println("Usage: Oblig2.java <seed> <n> ");
                System.exit(0);
            }
 
