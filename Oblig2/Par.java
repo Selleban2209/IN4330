@@ -9,7 +9,7 @@ public class Par {
 	public static int threadsNum;
 	
 	public static boolean deepCheckCompare( double [][] a, double [][] b,double [][] c, int n,  Oblig2Precode.Mode operation){
-
+		//kind of inefficient considering it creates a whole new seq result everytime rather than using old one
 		//Prints an error 
 		double [][] expected = new double[n][n];
 		expected =  Oblig2Precode.multMetrix(a, b,expected, 0,n,n,operation);
