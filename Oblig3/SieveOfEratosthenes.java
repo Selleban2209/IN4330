@@ -48,7 +48,7 @@
  *         array to collect all the unmarked numbers.
  */
 
-class SieveOfEratosthenes {
+public class SieveOfEratosthenes {
 
     /**
      * Declaring all the global variables
@@ -62,7 +62,7 @@ class SieveOfEratosthenes {
      * 
      * @param n Prime numbers up until (and including if prime) 'n' is found
      */
-    SieveOfEratosthenes(int n) {
+    public SieveOfEratosthenes(int n) {
         this.n = n;
         root = (int) Math.sqrt(n);
         oddNumbers = new byte[(n / 16) + 1];
@@ -73,7 +73,7 @@ class SieveOfEratosthenes {
      * 
      * @return An array containing all the primes up to and including 'n'.
      */
-    int[] getPrimes() {
+    public int[] getPrimes() {
         if (n <= 1)
             return new int[0];
 
@@ -179,7 +179,7 @@ class SieveOfEratosthenes {
      * 
      * @param primes The array containing all the primes.
      */
-    static void printPrimes(int[] primes) {
+    public static void printPrimes(int[] primes) {
         for (int prime : primes)
             System.out.println(prime);
     }
@@ -214,5 +214,11 @@ class SieveOfEratosthenes {
          * Printing the primes collected
          */
         printPrimes(primes);
+
+        Oblig3Precode ob3Pre = new Oblig3Precode(n);
+
+        Factorize seqFact = new Factorize(n, primes, ob3Pre);
+
+        seqFact.factN2();
     }
 }
