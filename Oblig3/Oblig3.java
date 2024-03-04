@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 public class Oblig3 {
     
     public static void main(String[] args) {
@@ -14,23 +16,65 @@ public class Oblig3 {
             return;
         }
 
-        SieveOfEratosthenes soe = new SieveOfEratosthenes(n);
-
+        
+        SieveOfEratosthenesPar soePar = new SieveOfEratosthenesPar(n);
+        
+        int []primesPar = soePar.getPrimesPar();
+        SieveOfEratosthenes.printPrimes(primesPar);
         /**
          * Getting all the primes equal to and below 'n'
          */
-        new SieveOfEratosthenes(n).getPrimes();
+        
+        SieveOfEratosthenes soe = new SieveOfEratosthenes(n);
         int[] primes = soe.getPrimes();
+        
+        
+        
+        double[] timesRunSeqGetPrime = new double[7];
+        for (int i = 0; i < 7 ; i++) {
+            double timeStart = System.nanoTime();
+            SieveOfEratosthenes soeTest = new SieveOfEratosthenes(n);
+            int[] primesTest = soeTest.getPrimes();
+            
+            double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
+            timesRunSeqGetPrime[i]= elapsedTime;
+
+        }
+        Arrays.sort(timesRunSeqGetPrime);
+        System.out.println("Sieve sequential times for a median of 7 test run " + timesRunSeqGetPrime[3]+ "ms" + " (" +(timesRunSeqGetPrime[3]/1000)+ "s)");
+
+
+        double[] timesRunParGetPrime = new double[7];
+        for (int i = 0; i < 7 ; i++) {
+            double timeStart = System.nanoTime();
+           // SieveOfEratosthenesPar soeParTest = new SieveOfEratosthenesPar(n);
+           // int []primesParTest = soeParTest.getPrimesPar();        
+            double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
+            timesRunParGetPrime[i]= elapsedTime;
+
+        }
+        Arrays.sort(timesRunParGetPrime);
+        System.out.println("Sieve parallel times for a median of 7 test run " + timesRunParGetPrime[3]+ "ms" + " (" +(timesRunParGetPrime[3]/1000)+ "s)");
 
         /**
          * Printing the primes collected
+         * 
          */
-        SieveOfEratosthenes.printPrimes(primes);
-
-        Oblig3Precode ob3Pre = new Oblig3Precode(n);
-
-        Factorize seqFact = new Factorize(n, primes, ob3Pre);
-
-        seqFact.factN2();
+        
+        //SieveOfEratosthenes.printPrimes(primes);
+        
+        
+        double[] timesRunSeq = new double[7];
+        for (int i = 0; i < 7 ; i++) {
+            Oblig3Precode ob3Pre = new Oblig3Precode(n);
+            FactSeq seqFact = new FactSeq(n, primes, ob3Pre);
+            double timeStart = System.nanoTime();
+            seqFact.factN2();
+            double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
+            timesRunSeq[i]= elapsedTime;
+        }
+        Arrays.sort(timesRunSeq);
+        System.out.println("Times for a median of 7 test run " + timesRunSeq[3]+ "ms" + " (" +(timesRunSeq[3]/1000)+ "s)");
+        
     }
 }

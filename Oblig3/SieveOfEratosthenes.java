@@ -88,7 +88,7 @@ public class SieveOfEratosthenes {
      * 
      * @return An array containing all the primes up to and including 'n'.
      */
-    private int[] collectPrimes() {
+    public int[] collectPrimes() {
 
         int start = (root % 2 == 0) ? root + 1 : root + 2;
 
@@ -118,7 +118,7 @@ public class SieveOfEratosthenes {
         int prime = nextPrime(1);
 
         while (prime != -1) {
-            traverse(prime);
+            traverse(prime); 
             prime = nextPrime(prime);
             numOfPrimes++;
         }
@@ -217,7 +217,7 @@ public class SieveOfEratosthenes {
 
         Oblig3Precode ob3Pre = new Oblig3Precode(n);
 
-        Factorize seqFact = new Factorize(n, primes, ob3Pre);
+        FactSeq seqFact = new FactSeq(n, primes, ob3Pre);
 
         seqFact.factN2();
     }

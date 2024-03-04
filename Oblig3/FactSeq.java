@@ -1,11 +1,11 @@
-public class Factorize {
+public class FactSeq {
     long N; 
     long N2;
     int [] primesToN;
     Oblig3Precode ob3Pre;
 
 
-    public Factorize(long n, int []primes, Oblig3Precode ob3Pre){
+    public FactSeq(long n, int []primes, Oblig3Precode ob3Pre){
         N= n;
         N2 = n*n;
         primesToN= primes;
