@@ -47,8 +47,8 @@ public class Oblig3 {
         double[] timesRunParGetPrime = new double[7];
         for (int i = 0; i < 7 ; i++) {
             double timeStart = System.nanoTime();
-           // SieveOfEratosthenesPar soeParTest = new SieveOfEratosthenesPar(n);
-           // int []primesParTest = soeParTest.getPrimesPar();        
+            SieveOfEratosthenesPar soeParTest = new SieveOfEratosthenesPar(n);
+            int []primesParTest = soeParTest.getPrimesPar();        
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunParGetPrime[i]= elapsedTime;
 

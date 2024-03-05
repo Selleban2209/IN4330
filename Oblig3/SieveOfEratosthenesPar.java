@@ -65,26 +65,26 @@ public class SieveOfEratosthenesPar {
         while (prime != -1) {
 
             for (int j = 0; j < threadsNum; j++) {
-                int start= (root/threadsNum)*j+prime;
-               // if(j == 0) start = prime;
-                int end = (root/threadsNum) * (j+1)+prime;
+                int start= (n/threadsNum)*j+ prime*prime ; 
+              //  if(j == 0) start = prime;
+                int end = (n/threadsNum) * (j+1)+ prime*prime;
                 if(j==threadsNum -1 )end =n; 
 
                 workers[j] = new Worker(start, end,j);
                 workers[j].start();
             } 
-            prime = nextPrime(prime);
-            numOfPrimes++;
             try {
                 cb.await();
             } catch (InterruptedException | BrokenBarrierException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }           
+            prime = nextPrime(prime);
+            numOfPrimes++;
         }
     }
     public void traversePar(int prime , int end ) {
-        for (int i = prime * prime; i <= end; i += prime * 2)
+        for (int i = prime; i <= end; i += prime * 2)
             mark(i);
     }
 
@@ -121,7 +121,7 @@ public class SieveOfEratosthenesPar {
             // TODO Auto-generated method stub
             traversePar(start,end );
             
-            System.out.println("start "+ start + " end " + end);
+           // System.out.println("start "+ start + " end " + end);
             try {
                 cb.await();
             } catch (InterruptedException | BrokenBarrierException e) {
