@@ -8,7 +8,7 @@ import java.util.concurrent.CyclicBarrier;
 public class SieveOfEratosthenesPar {
     
     byte[] oddNumbers;
-    
+    int runningThreads=0;
     int threadsNum;
     int n, root, numOfPrimes;
     Queue<Integer> primes = new LinkedList<Integer>();
@@ -24,6 +24,43 @@ public class SieveOfEratosthenesPar {
 
 
 
+    
+    public class Worker extends Thread  {
+
+        int workId;
+        public int start;
+		public int end;
+
+        public Worker(int start, int end,int id){
+            workId= id;
+            this.start= start;
+			this.end = end;
+        }
+
+
+
+        @Override
+        public void run() {
+           // System.out.println("start "+ start + " end " + end);
+
+            try {
+                sf.acquire();
+            } catch (InterruptedException e) {
+                // System.out.println("thread " + id + " interrupted");
+            }
+
+            if (runningThreads >= threadsNum) {
+                sf.release();
+               
+
+            }
+            sf.release();
+            traversePar(start,end );
+      
+            runningThreads--;
+
+        }
+    }
     
     public int[] collectPrimes() {
 
@@ -53,38 +90,27 @@ public class SieveOfEratosthenesPar {
         mark(1);
         numOfPrimes = 1;
         int prime = nextPrime(1);
-    
 		threadsNum = Runtime.getRuntime().availableProcessors();
-
         Worker[] workers = new Worker[threadsNum];
-
-      
         ArrayList<Integer> markedPrimes = new ArrayList<>();
         cb = new CyclicBarrier(threadsNum+1);
-       // while (threadsNum * root > n) threadsNum /= 2;
-        while (prime != -1) {
 
-            for (int j = 0; j < threadsNum; j++) {
-                int start= (n/threadsNum)*j+ prime*prime ; 
-              //  if(j == 0) start = prime;
-                int end = (n/threadsNum) * (j+1)+ prime*prime;
-                if(j==threadsNum -1 )end =n; 
+       
+       
+       while (prime != -1) {
+           
+            if(runningThreads< threadsNum){
 
-                workers[j] = new Worker(start, end,j);
-                workers[j].start();
-            } 
-            try {
-                cb.await();
-            } catch (InterruptedException | BrokenBarrierException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }           
+                new Worker(prime, n,0).start();
+                runningThreads++;
+            }
+           
             prime = nextPrime(prime);
             numOfPrimes++;
         }
     }
     public void traversePar(int prime , int end ) {
-        for (int i = prime; i <= end; i += prime * 2)
+        for (int i = prime*prime; i <= end; i += prime * 2)
             mark(i);
     }
 
@@ -102,36 +128,6 @@ public class SieveOfEratosthenesPar {
 
         return -1;
     }
-    public class Worker extends Thread  {
-
-        int workId;
-        public int start;
-		public int end;
-
-        public Worker(int start, int end,int id){
-            workId= id;
-            this.start= start;
-			this.end = end;
-        }
-
-
-
-        @Override
-        public void run() {
-            // TODO Auto-generated method stub
-            traversePar(start,end );
-            
-           // System.out.println("start "+ start + " end " + end);
-            try {
-                cb.await();
-            } catch (InterruptedException | BrokenBarrierException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-        }
-    }
-
 
 
 
@@ -164,3 +160,12 @@ public class SieveOfEratosthenesPar {
     
     
 }
+
+
+/*
+* 
+int start = prime *prime;
+int step = prime *2;
+int total= ((n-(prime*prime))/step+1);
+int chunk = total /threadsNum;
+*/

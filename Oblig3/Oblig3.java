@@ -20,7 +20,7 @@ public class Oblig3 {
         SieveOfEratosthenesPar soePar = new SieveOfEratosthenesPar(n);
         
         int []primesPar = soePar.getPrimesPar();
-        SieveOfEratosthenes.printPrimes(primesPar);
+        //SieveOfEratosthenes.printPrimes(primesPar);
         /**
          * Getting all the primes equal to and below 'n'
          */
@@ -41,7 +41,7 @@ public class Oblig3 {
 
         }
         Arrays.sort(timesRunSeqGetPrime);
-        System.out.println("Sieve sequential times for a median of 7 test run " + timesRunSeqGetPrime[3]+ "ms" + " (" +(timesRunSeqGetPrime[3]/1000)+ "s)");
+        System.out.println("Sieve sequential times for a median of 7 test run: " + timesRunSeqGetPrime[3]+ "ms" + " (" +(timesRunSeqGetPrime[3]/1000)+ "s)");
 
 
         double[] timesRunParGetPrime = new double[7];
@@ -51,11 +51,12 @@ public class Oblig3 {
             int []primesParTest = soeParTest.getPrimesPar();        
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunParGetPrime[i]= elapsedTime;
-
+            
         }
         Arrays.sort(timesRunParGetPrime);
-        System.out.println("Sieve parallel times for a median of 7 test run " + timesRunParGetPrime[3]+ "ms" + " (" +(timesRunParGetPrime[3]/1000)+ "s)");
-
+        System.out.println("Sieve parallel times for a median of 7 test run: " + timesRunParGetPrime[3]+ "ms" + " (" +(timesRunParGetPrime[3]/1000)+ "s)");
+        
+        System.out.println("Speed up of sieve for 7 runs: "+ String.format("%.3f",( (timesRunSeqGetPrime[3]/timesRunParGetPrime[3]))));
         /**
          * Printing the primes collected
          * 
@@ -74,7 +75,7 @@ public class Oblig3 {
             timesRunSeq[i]= elapsedTime;
         }
         Arrays.sort(timesRunSeq);
-        System.out.println("Times for a median of 7 test run " + timesRunSeq[3]+ "ms" + " (" +(timesRunSeq[3]/1000)+ "s)");
+        System.out.println("Times for a median of 7 test run sequential factorization " + timesRunSeq[3]+ "ms" + " (" +(timesRunSeq[3]/1000)+ "s)");
         
     }
 }
