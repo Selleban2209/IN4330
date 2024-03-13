@@ -3,10 +3,17 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit; 
+import java.util.concurrent.ThreadFactory;   
 public class SieveOfEratosthenesPar {
-    
+
+    ExecutorService executor;
     byte[] oddNumbers;
     int runningThreads=0;
     int threadsNum;
@@ -66,21 +73,16 @@ public class SieveOfEratosthenesPar {
 
         int start = (root % 2 == 0) ? root + 1 : root + 2;
 
-        for (int i = start; i <= n; i += 2)
-            if (isPrime(i))
-                numOfPrimes++;
+        ArrayList<Integer> collect = new ArrayList<>();
+      
 
-        int[] primes = new int[numOfPrimes];
-
-        primes[0] = 2;
-
-        int j = 1;
+        collect.add(2);
 
         for (int i = 3; i <= n; i += 2)
-            if (isPrime(i))
-                primes[j++] = i;
+            if (isPrime(i)) collect.add(i);
 
-        return primes;
+        return collect.stream().mapToInt(Integer::intValue).toArray();
+
     }
 
     /**
@@ -94,22 +96,24 @@ public class SieveOfEratosthenesPar {
         Worker[] workers = new Worker[threadsNum];
         ArrayList<Integer> markedPrimes = new ArrayList<>();
         cb = new CyclicBarrier(threadsNum+1);
-
+        executor= Executors.newFixedThreadPool(threadsNum-1);
        
        
-       while (prime != -1) {
-           
-            if(runningThreads< threadsNum){
-
-                new Worker(prime, n,0).start();
-                runningThreads++;
-            }
-           
+        while (prime != -1) {
+            int currentPrime = prime;
+            executor.execute(() -> {
+                traversePar(currentPrime, n);
+            });
+         
             prime = nextPrime(prime);
             numOfPrimes++;
         }
+        executor.shutdown();
+
+        while(!executor.isTerminated()){};
     }
-    public void traversePar(int prime , int end ) {
+
+    public synchronized void traversePar(int prime , int end ) {
         for (int i = prime*prime; i <= end; i += prime * 2)
             mark(i);
     }

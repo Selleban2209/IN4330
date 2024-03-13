@@ -34,8 +34,7 @@ public class Oblig3 {
         for (int i = 0; i < 7 ; i++) {
             double timeStart = System.nanoTime();
             SieveOfEratosthenes soeTest = new SieveOfEratosthenes(n);
-            int[] primesTest = soeTest.getPrimes();
-            
+            int[] primesTest = soeTest.getPrimes();      
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunSeqGetPrime[i]= elapsedTime;
 
@@ -50,8 +49,7 @@ public class Oblig3 {
             SieveOfEratosthenesPar soeParTest = new SieveOfEratosthenesPar(n);
             int []primesParTest = soeParTest.getPrimesPar();        
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
-            timesRunParGetPrime[i]= elapsedTime;
-            
+            timesRunParGetPrime[i]= elapsedTime;         
         }
         Arrays.sort(timesRunParGetPrime);
         System.out.println("Sieve parallel times for a median of 7 test run: " + timesRunParGetPrime[3]+ "ms" + " (" +(timesRunParGetPrime[3]/1000)+ "s)");
@@ -76,6 +74,14 @@ public class Oblig3 {
         }
         Arrays.sort(timesRunSeq);
         System.out.println("Times for a median of 7 test run sequential factorization " + timesRunSeq[3]+ "ms" + " (" +(timesRunSeq[3]/1000)+ "s)");
+
+
+        Oblig3Precode ob3Pre = new Oblig3Precode(n);
+
+        FactPar parFact = new FactPar(n, primes, ob3Pre);
+
+        parFact.factN2Par();
+
         
     }
 }
