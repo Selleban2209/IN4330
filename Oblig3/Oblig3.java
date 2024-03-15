@@ -74,14 +74,22 @@ public class Oblig3 {
         }
         Arrays.sort(timesRunSeq);
         System.out.println("Times for a median of 7 test run sequential factorization " + timesRunSeq[3]+ "ms" + " (" +(timesRunSeq[3]/1000)+ "s)");
-
-
-        Oblig3Precode ob3Pre = new Oblig3Precode(n);
-
-        FactPar parFact = new FactPar(n, primes, ob3Pre);
-
-        parFact.factN2Par();
-
+        
+        
+        
+        double[] timesRunPar = new double[7];
+        for (int i = 0; i < 7 ; i++) {
+            Oblig3Precode ob3Pre = new Oblig3Precode(n);
+            FactPar parFact = new FactPar(n, primes, ob3Pre);
+            double timeStart = System.nanoTime();
+            parFact.factN2Par();  
+            double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
+            timesRunPar[i]= elapsedTime;
+        }
+        Arrays.sort(timesRunPar);
+        System.out.println("Times for a median of 7 test run Parallelized factorization " + timesRunPar[3]+ "ms" + " (" +(timesRunPar[3]/1000)+ "s)");
+        
+        
         
     }
 }
