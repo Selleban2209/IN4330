@@ -89,6 +89,8 @@ public class Oblig3 {
         Arrays.sort(timesRunPar);
         System.out.println("Times for a median of 7 test run Parallelized factorization " + timesRunPar[3]+ "ms" + " (" +(timesRunPar[3]/1000)+ "s)");
         
+        System.out.println("Speed up of factorize for 7 runs: "+ String.format("%.3f",( (timesRunSeq[3]/timesRunPar[3]))));
+        
         
         
     }
