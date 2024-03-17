@@ -55,7 +55,7 @@ public class Oblig3 {
         } catch (Exception e) {
            
             System.out.println("Correct use of program is: " +
-                    "java SieveOfEratosthenes <n> where <n> is a positive integer.");
+                    "java Oblig3.java <n>  <t> where <n> is a positive integer, and t is number of threads");
             return;
         }
 
