@@ -1,21 +1,58 @@
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class Oblig3 {
+
+      public static boolean compareTreeMaps(TreeMap<Long, LinkedList<Long>> map1, TreeMap<Long, LinkedList<Long>> map2) {
+        // Check if the size of both TreeMap objects is the same
+        if (map1.size() != map2.size())return false;
+        
+
+        // Iterate over entries in TreeMap1
+        for (Map.Entry<Long, LinkedList<Long>> entry : map1.entrySet()) {
+            Long key = entry.getKey();
+            LinkedList<Long> list1 = entry.getValue();
+
+            Collections.sort(entry.getValue());
+            // Compare LinkedLists associated with the keys
+            LinkedList<Long> list2 = map2.get(key);
+            Collections.sort(list2);
+            if (!list1.equals(list2)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
     
     public static void main(String[] args) {
         
         int n;
+        int t;
 
         try {
             n = Integer.parseInt(args[0]);
+           // t = Integer.parseInt(args[1]);
             if (n <= 0)
                 throw new Exception();
+
+            if (args.length > 1) {
+                int threadNum = Runtime.getRuntime().availableProcessors();
+                if(Integer.parseInt(args[1])>threadNum && Integer.parseInt(args[1])<0)t = Integer.parseInt(args[1]);
+            } else {
+                // If the second argument isn't provided, set t to the number of available threads
+                t = Runtime.getRuntime().availableProcessors();
+            }
         } catch (Exception e) {
+           
             System.out.println("Correct use of program is: " +
                     "java SieveOfEratosthenes <n> where <n> is a positive integer.");
             return;
         }
-
+      
         
         SieveOfEratosthenesPar soePar = new SieveOfEratosthenesPar(n);
         
@@ -64,9 +101,10 @@ public class Oblig3 {
         
         
         double[] timesRunSeq = new double[7];
+        Oblig3Precode ob3PreSeq = new Oblig3Precode(n);
         for (int i = 0; i < 7 ; i++) {
-            Oblig3Precode ob3Pre = new Oblig3Precode(n);
-            FactSeq seqFact = new FactSeq(n, primes, ob3Pre);
+            ob3PreSeq = new Oblig3Precode(n);
+            FactSeq seqFact = new FactSeq(n, primes, ob3PreSeq);
             double timeStart = System.nanoTime();
             seqFact.factN2();
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
@@ -77,10 +115,11 @@ public class Oblig3 {
         
         
         
+        Oblig3Precode ob3PrePar = new Oblig3Precode(n);
         double[] timesRunPar = new double[7];
         for (int i = 0; i < 7 ; i++) {
-            Oblig3Precode ob3Pre = new Oblig3Precode(n);
-            FactPar parFact = new FactPar(n, primes, ob3Pre);
+            ob3PrePar = new Oblig3Precode(n);
+            FactPar parFact = new FactPar(n, primes, ob3PrePar);
             double timeStart = System.nanoTime();
             parFact.factN2Par();  
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
@@ -89,7 +128,8 @@ public class Oblig3 {
         Arrays.sort(timesRunPar);
         System.out.println("Times for a median of 7 test run Parallelized factorization " + timesRunPar[3]+ "ms" + " (" +(timesRunPar[3]/1000)+ "s)");
         
-        
+       //ob3's factor treemap isnt accessible wihtout modifying the oblig3precode, which is needed to run this comparison
+       // if(!compareTreeMaps(ob3PrePar.factors, ob3PreSeq.factors))System.out.println("Wrong prime numbers");
         
     }
 }
