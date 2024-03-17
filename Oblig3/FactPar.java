@@ -27,11 +27,12 @@ public class FactPar {
 
 
 
-    public FactPar(long n, int []primes, Oblig3Precode ob3Pre){
+    public FactPar(long n, int []primes,int threadsNum, Oblig3Precode ob3Pre){
         N= n;
         N2 = n*n;
         primesToN= primes;
         this.ob3Pre = ob3Pre;
+        this.threadsNum = threadsNum;
         k = primes.length;
     }
 
@@ -65,7 +66,7 @@ public class FactPar {
         ConcurrentLinkedQueue<Long> factors = new ConcurrentLinkedQueue();
         long base = number; 
         AtomicLong baseNum=  new AtomicLong(base);
-        threadsNum = Runtime.getRuntime().availableProcessors();
+        
         executor= Executors.newFixedThreadPool(threadsNum);
 
       

@@ -36,12 +36,18 @@ public class Oblig3 {
         try {
             n = Integer.parseInt(args[0]);
            // t = Integer.parseInt(args[1]);
+           t= 0;
             if (n <= 0)
                 throw new Exception();
 
             if (args.length > 1) {
                 int threadNum = Runtime.getRuntime().availableProcessors();
-                if(Integer.parseInt(args[1])>threadNum && Integer.parseInt(args[1])<0)t = Integer.parseInt(args[1]);
+                if(Integer.parseInt(args[1])<=threadNum && Integer.parseInt(args[1])>0){
+                    t = Integer.parseInt(args[1]);
+                } else{
+                    t = Runtime.getRuntime().availableProcessors();
+                    System.out.println("Number of available threads exceeded, setting to max threads of " +t);
+                } 
             } else {
                 // If the second argument isn't provided, set t to the number of available threads
                 t = Runtime.getRuntime().availableProcessors();
@@ -52,6 +58,8 @@ public class Oblig3 {
                     "java SieveOfEratosthenes <n> where <n> is a positive integer.");
             return;
         }
+
+    
       
         
         SieveOfEratosthenesPar soePar = new SieveOfEratosthenesPar(n);
@@ -119,19 +127,18 @@ public class Oblig3 {
         double[] timesRunPar = new double[7];
         for (int i = 0; i < 7 ; i++) {
             ob3PrePar = new Oblig3Precode(n);
-            FactPar parFact = new FactPar(n, primes, ob3PrePar);
+            FactPar parFact = new FactPar(n, primes,t ,ob3PrePar);
             double timeStart = System.nanoTime();
             parFact.factN2Par();  
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunPar[i]= elapsedTime;
         }
         Arrays.sort(timesRunPar);
-        System.out.println("Times for a median of 7 test run Parallelized factorization " + timesRunPar[3]+ "ms" + " (" +(timesRunPar[3]/1000)+ "s)");
+        System.out.println("Times for a median of 7 test run Parallelized factorization, "+ "using " + t + " threads "+ timesRunPar[3]+ "ms" + " (" +(timesRunPar[3]/1000)+ "s)");
         
         System.out.println("Speed up of factorize for 7 runs: "+ String.format("%.3f",( (timesRunSeq[3]/timesRunPar[3]))));
         
-        System.out.println("Speed up of factorize for 7 runs: "+ String.format("%.3f",( (timesRunSeq[3]/timesRunPar[3]))));
-        
+    
        //ob3's factor treemap isnt accessible wihtout modifying the oblig3precode, which is needed to run this comparison
        // if(!compareTreeMaps(ob3PrePar.factors, ob3PreSeq.factors))System.out.println("Wrong prime numbers");
         
