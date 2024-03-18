@@ -96,7 +96,7 @@ public class SieveOfEratosthenesPar {
         Worker[] workers = new Worker[threadsNum];
         ArrayList<Integer> markedPrimes = new ArrayList<>();
         cb = new CyclicBarrier(threadsNum+1);
-        executor= Executors.newFixedThreadPool(threadsNum-1);
+        executor= Executors.newFixedThreadPool(threadsNum);
        
        
         while (prime != -1) {
@@ -114,6 +114,7 @@ public class SieveOfEratosthenesPar {
     }
 
     public synchronized void traversePar(int prime , int end ) {
+        
         for (int i = prime*prime; i <= end; i += prime * 2)
             mark(i);
     }

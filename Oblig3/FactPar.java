@@ -9,6 +9,7 @@ import java.util.concurrent.Semaphore;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -63,9 +64,10 @@ public class FactPar {
     public void factNumberPar(long number){ 
 
         //ArrayList<Long> factors = new ArrayList<>();
-        ConcurrentLinkedQueue<Long> factors = new ConcurrentLinkedQueue();
+        ConcurrentLinkedQueue<Long> factors = new ConcurrentLinkedQueue<>();
         long base = number; 
         AtomicLong baseNum=  new AtomicLong(base);
+         CountDownLatch latch = new CountDownLatch(threadsNum);
         
         executor= Executors.newFixedThreadPool(threadsNum);
 
@@ -79,24 +81,22 @@ public class FactPar {
             final int end = currEnd;
 
             executor.submit(() -> {
-                String str = "";
-                // Your code here
-                for (int y=start;y<end; y++) {
-                    Long prime = (long) primesToN[y];
-                    //str +=  prime.toString()+ "*";
-                    if(baseNum.get()!= 1 && baseNum.get()  % prime ==0 ){
-                    synchronized(baseNum){       
-                    while(baseNum.get()!= 1 && baseNum.get()  % prime ==0 ){
-                            baseNum.set( baseNum.get()/ prime);
-                            factors.add(prime);             
-                            }   
-                        }
+                for (int y = start; y < end; y++) {
+                    long prime = primesToN[y];
+                    while (baseNum.get() != 1 && baseNum.get() % prime == 0) {
+                        baseNum.set( baseNum.get()/ prime);
+                        factors.add(prime);
                     }
                 }
-                
-                //System.out.println(str);
+                latch.countDown(); 
             });
+        }
 
+    
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
         executor.shutdown();
         while(!executor.isTerminated()){};

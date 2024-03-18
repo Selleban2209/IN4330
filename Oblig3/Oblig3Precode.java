@@ -57,7 +57,7 @@ public class Oblig3Precode {
 
     int n;
 
-    TreeMap<Long, LinkedList<Long>> factors = new TreeMap<Long, LinkedList<Long>>();
+    public TreeMap<Long, LinkedList<Long>> factors = new TreeMap<Long, LinkedList<Long>>();
 
     /**
      * Create an object for unified factor printing

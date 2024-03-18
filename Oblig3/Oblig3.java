@@ -137,10 +137,9 @@ public class Oblig3 {
         System.out.println("Times for a median of 7 test run Parallelized factorization, "+ "using " + t + " threads "+ timesRunPar[3]+ "ms" + " (" +(timesRunPar[3]/1000)+ "s)");
         
         System.out.println("Speed up of factorize for 7 runs: "+ String.format("%.3f",( (timesRunSeq[3]/timesRunPar[3]))));
-        
-    
-       //ob3's factor treemap isnt accessible wihtout modifying the oblig3precode, which is needed to run this comparison
-       // if(!compareTreeMaps(ob3PrePar.factors, ob3PreSeq.factors))System.out.println("Wrong prime numbers");
+     
+       //ob3's factor treemap isnt accessible wihtout modifying the oblig3precode so i made the treemap public, which is needed to run this comparison
+        if(!compareTreeMaps(ob3PrePar.factors, ob3PreSeq.factors))System.out.println("Wrong prime numbers");
         
     }
 }
