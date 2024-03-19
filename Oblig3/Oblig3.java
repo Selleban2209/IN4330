@@ -16,11 +16,9 @@ public class Oblig3 {
     }
 
     public static boolean compareTreeMaps(TreeMap<Long, LinkedList<Long>> map1, TreeMap<Long, LinkedList<Long>> map2) {
-        // Check if the size of both TreeMap objects is the same
         if (map1.size() != map2.size())return false;
-        
 
-        // Iterate over entries in TreeMap1
+
         for (Map.Entry<Long, LinkedList<Long>> entry : map1.entrySet()) {
             Long key = entry.getKey();
             LinkedList<Long> list1 = entry.getValue();
@@ -72,7 +70,6 @@ public class Oblig3 {
        
         
         double[] timesRunSeqGetPrime = new double[7];
-      //  SieveOfEratosthenes soeSeqTest;
         for (int i = 0; i < 7 ; i++) {
             double timeStart = System.nanoTime();
             SieveOfEratosthenes soeSeqTest = new SieveOfEratosthenes(n);
@@ -85,8 +82,7 @@ public class Oblig3 {
         System.out.println("Sieve sequential times for a median of 7 test run: " + timesRunSeqGetPrime[3]+ "ms" + " (" +(timesRunSeqGetPrime[3]/1000)+ "s)");
 
 
-        double[] timesRunParGetPrime = new double[7];
-        //SieveOfEratosthenesPar soeParTest;
+        double[] timesRunParGetPrime = new double[7]; 
         for (int i = 0; i < 7 ; i++) {
             double timeStart = System.nanoTime();
             SieveOfEratosthenesPar soeParTest = new SieveOfEratosthenesPar(n);

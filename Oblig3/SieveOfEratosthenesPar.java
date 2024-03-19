@@ -3,15 +3,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.CyclicBarrier;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit; 
-import java.util.concurrent.ThreadFactory;   
+  
 public class SieveOfEratosthenesPar {
 
     ExecutorService executor;
@@ -20,9 +16,7 @@ public class SieveOfEratosthenesPar {
     int threadsNum;
     int n, root, numOfPrimes;
     Queue<Integer> primes = new LinkedList<Integer>();
-    static CyclicBarrier cb;
-    Semaphore sf= new Semaphore(1);
-    CyclicBarrier endingBarrier;
+  
 
     public SieveOfEratosthenesPar(int n) {
         this.n = n;
@@ -32,43 +26,6 @@ public class SieveOfEratosthenesPar {
 
 
 
-    
-    public class Worker extends Thread  {
-
-        int workId;
-        public int start;
-		public int end;
-
-        public Worker(int start, int end,int id){
-            workId= id;
-            this.start= start;
-			this.end = end;
-        }
-
-
-
-        @Override
-        public void run() {
-           // System.out.println("start "+ start + " end " + end);
-
-            try {
-                sf.acquire();
-            } catch (InterruptedException e) {
-                // System.out.println("thread " + id + " interrupted");
-            }
-
-            if (runningThreads >= threadsNum) {
-                sf.release();
-               
-
-            }
-            sf.release();
-            traversePar(start,end );
-      
-            runningThreads--;
-
-        }
-    }
     
     public int[] collectPrimes() {
         int start = (root % 2 == 0) ? root + 1 : root + 2;
@@ -99,18 +56,12 @@ public class SieveOfEratosthenesPar {
         numOfPrimes = 1;
         int prime = nextPrime(1);
 		threadsNum = Runtime.getRuntime().availableProcessors();
-        Worker[] workers = new Worker[threadsNum];
-        ArrayList<Integer> markedPrimes = new ArrayList<>();
-        cb = new CyclicBarrier(threadsNum+1);
         executor= Executors.newFixedThreadPool(threadsNum);
        
        
         while (prime != -1) {
             //int currentPrime = prime; 
             traversePar(prime, n);
-                
-       
-            
             prime = nextPrime(prime);
             numOfPrimes++;
         }
@@ -121,14 +72,13 @@ public class SieveOfEratosthenesPar {
 
     public void traversePar(int prime , int end ) {
         CountDownLatch latch = new CountDownLatch(threadsNum);
-        cb= new CyclicBarrier(threadsNum+1);
+   
         int start = prime *prime;
         int step = prime *2;
         int total= ((n-(start))/step)+1;
         int chunk = total /threadsNum;
-        int rest= total%threadsNum;
-        
-      //  System.out.println("chunk size"+ chunk);
+        int rest= total%threadsNum;        
+
         int currStart=0;
         for (int j = 0; j < threadsNum; j++) {
             currStart = start + j*chunk*step+ Math.min(j, rest)*step;

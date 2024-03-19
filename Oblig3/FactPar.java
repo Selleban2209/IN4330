@@ -37,20 +37,7 @@ public class FactPar {
         k = primes.length;
     }
 
-
-    public class Worker extends Thread  {  
     
-        public Worker(){
-           
-        }
-
-        @Override
-        public void run() {
-
-        }
-    }
-    
-
 
     public void factN2Par(){   
         for (long i = N2-100; i < N2; i++) {
@@ -63,7 +50,6 @@ public class FactPar {
 
     public void factNumberPar(long number){ 
 
-        //ArrayList<Long> factors = new ArrayList<>();
         ConcurrentLinkedQueue<Long> factors = new ConcurrentLinkedQueue<>();
         long base = number; 
         AtomicLong baseNum=  new AtomicLong(base);
