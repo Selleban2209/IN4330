@@ -6,7 +6,16 @@ import java.util.TreeMap;
 
 public class Oblig3 {
 
-      public static boolean compareTreeMaps(TreeMap<Long, LinkedList<Long>> map1, TreeMap<Long, LinkedList<Long>> map2) {
+    public static boolean comparePrimes (int []primeArray1,int []primeArray2 ){
+       // System.out.println(Arrays.toString(primeArray1));
+        //System.out.println(Arrays.toString(primeArray2));
+        if (!Arrays.equals(primeArray1,primeArray2)) {
+            return false;
+        }
+        return true;
+    }
+
+    public static boolean compareTreeMaps(TreeMap<Long, LinkedList<Long>> map1, TreeMap<Long, LinkedList<Long>> map2) {
         // Check if the size of both TreeMap objects is the same
         if (map1.size() != map2.size())return false;
         
@@ -45,8 +54,8 @@ public class Oblig3 {
                 if(Integer.parseInt(args[1])<=threadNum && Integer.parseInt(args[1])>0){
                     t = Integer.parseInt(args[1]);
                 } else{
-                    System.out.println("Number of available threads exceeded, setting to max threads of " +t);
                     t = Runtime.getRuntime().availableProcessors();
+                    System.out.println("Number of available threads exceeded, setting to max threads of " +t);
                 } 
             } else {
                 // If the second argument isn't provided, set t to the number of available threads
@@ -59,26 +68,15 @@ public class Oblig3 {
             return;
         }
 
-    
-      
-        
-        SieveOfEratosthenesPar soePar = new SieveOfEratosthenesPar(n);
-        
-        int []primesPar = soePar.getPrimesPar();
-        SieveOfEratosthenesPar.printPrimes(primesPar);
-        /**
-         * Getting all the primes equal to and below 'n'
-         */
-        
-        SieveOfEratosthenes soe = new SieveOfEratosthenes(n);
-        int[] primes = soe.getPrimes();
+
        
         
         double[] timesRunSeqGetPrime = new double[7];
+      //  SieveOfEratosthenes soeSeqTest;
         for (int i = 0; i < 7 ; i++) {
             double timeStart = System.nanoTime();
-            SieveOfEratosthenes soeTest = new SieveOfEratosthenes(n);
-            int[] primesTest = soeTest.getPrimes();      
+            SieveOfEratosthenes soeSeqTest = new SieveOfEratosthenes(n);
+            int[] primesTest = soeSeqTest.getPrimes();      
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunSeqGetPrime[i]= elapsedTime;
 
@@ -88,6 +86,7 @@ public class Oblig3 {
 
 
         double[] timesRunParGetPrime = new double[7];
+        //SieveOfEratosthenesPar soeParTest;
         for (int i = 0; i < 7 ; i++) {
             double timeStart = System.nanoTime();
             SieveOfEratosthenesPar soeParTest = new SieveOfEratosthenesPar(n);
@@ -103,8 +102,18 @@ public class Oblig3 {
          * Printing the primes collected
          * 
          */
-        
+        //Comparing prime calculaction
+        SieveOfEratosthenes soe = new SieveOfEratosthenes(n);
+        int[] primes = soe.getPrimes();
         //SieveOfEratosthenes.printPrimes(primes);
+        
+        //System.out.println("\n");
+
+        SieveOfEratosthenesPar soePar = new SieveOfEratosthenesPar(n);
+        int []primesPar = soePar.getPrimesPar();
+        //SieveOfEratosthenesPar.printPrimes(primesPar);
+
+        if(!comparePrimes(primes, primesPar)) System.out.println("Wrong prime calculation");
         
         
         double[] timesRunSeq = new double[7];
@@ -138,7 +147,7 @@ public class Oblig3 {
         System.out.println("Speed up of factorize for 7 runs: "+ String.format("%.3f",( (timesRunSeq[3]/timesRunPar[3]))));
      
        //ob3's factor treemap isnt accessible wihtout modifying the oblig3precode so i made the treemap public, which is needed to run this comparison
-        if(!compareTreeMaps(ob3PrePar.factors, ob3PreSeq.factors))System.out.println("Wrong prime numbers");
+        if(!compareTreeMaps(ob3PrePar.factors, ob3PreSeq.factors))System.out.println("Wrong factorzation of prime numebrs");
         
     }
 }

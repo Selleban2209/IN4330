@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -70,18 +71,23 @@ public class SieveOfEratosthenesPar {
     }
     
     public int[] collectPrimes() {
-
         int start = (root % 2 == 0) ? root + 1 : root + 2;
 
-        ArrayList<Integer> collect = new ArrayList<>();
-      
+        for (int i = start; i <= n; i += 2)
+            if (isPrime(i))
+                numOfPrimes++;
 
-        collect.add(2);
+        int[] primes = new int[numOfPrimes];
+
+        primes[0] = 2;
+
+        int j = 1;
 
         for (int i = 3; i <= n; i += 2)
-            if (isPrime(i)) collect.add(i);
+            if (isPrime(i))
+                primes[j++] = i;
 
-        return collect.stream().mapToInt(Integer::intValue).toArray();
+        return primes;
 
     }
 
@@ -103,36 +109,51 @@ public class SieveOfEratosthenesPar {
             //int currentPrime = prime; 
             traversePar(prime, n);
                 
+       
+            
             prime = nextPrime(prime);
             numOfPrimes++;
         }
-        
         executor.shutdown();
 
         while(!executor.isTerminated()){};
     }
 
-    public synchronized void traversePar(int prime , int end ) {
-        
+    public void traversePar(int prime , int end ) {
+        CountDownLatch latch = new CountDownLatch(threadsNum);
+        cb= new CyclicBarrier(threadsNum+1);
         int start = prime *prime;
         int step = prime *2;
-        int total= ((n-(start))/step+1);
+        int total= ((n-(start))/step)+1;
         int chunk = total /threadsNum;
-        int currThreadStart=0;
-        for (int j = 0; j < threadsNum; j++) {
-            if(j==0)currThreadStart = start;
+        int rest= total%threadsNum;
         
-            currThreadStart= chunk*j+step;
-            int currEnd = chunk*(j+1)+step;
-            if(j==threadsNum -1 )currEnd= end+ step;
-            final int threadStart= currThreadStart;  
-           final int threadEnd= currEnd;
+      //  System.out.println("chunk size"+ chunk);
+        int currStart=0;
+        for (int j = 0; j < threadsNum; j++) {
+            currStart = start + j*chunk*step+ Math.min(j, rest)*step;
+            
+            int increment= (j <rest? chunk +1: chunk)*step;
+       
+            int currEnd =Math.min(currStart+increment,n+1 );
+        
+     
+           
+            final int threadStart= currStart;  
+            final int threadEnd= currEnd;
+           
             executor.execute(() -> {      
                 for (int i = threadStart; i <= threadEnd; i += prime * 2)
                 mark(i);
+
+                latch.countDown(); 
             });
         } 
-      
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     /**
