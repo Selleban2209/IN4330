@@ -100,14 +100,13 @@ public class SieveOfEratosthenesPar {
        
        
         while (prime != -1) {
-            int currentPrime = prime;
-            executor.execute(() -> {
-                traversePar(currentPrime, n);
-            });
-         
+            //int currentPrime = prime; 
+            traversePar(prime, n);
+                
             prime = nextPrime(prime);
             numOfPrimes++;
         }
+        
         executor.shutdown();
 
         while(!executor.isTerminated()){};
@@ -115,8 +114,25 @@ public class SieveOfEratosthenesPar {
 
     public synchronized void traversePar(int prime , int end ) {
         
-        for (int i = prime*prime; i <= end; i += prime * 2)
-            mark(i);
+        int start = prime *prime;
+        int step = prime *2;
+        int total= ((n-(start))/step+1);
+        int chunk = total /threadsNum;
+        int currThreadStart=0;
+        for (int j = 0; j < threadsNum; j++) {
+            if(j==0)currThreadStart = start;
+        
+            currThreadStart= chunk*j+step;
+            int currEnd = chunk*(j+1)+step;
+            if(j==threadsNum -1 )currEnd= end+ step;
+            final int threadStart= currThreadStart;  
+           final int threadEnd= currEnd;
+            executor.execute(() -> {      
+                for (int i = threadStart; i <= threadEnd; i += prime * 2)
+                mark(i);
+            });
+        } 
+      
     }
 
     /**
@@ -141,11 +157,8 @@ public class SieveOfEratosthenesPar {
         return new int[0];
 
         sievePar();
-     
-		//threadsNum = Runtime.getRuntime().availableProcessors();
+
         return collectPrimes();
-
-
     }
 
  
@@ -162,6 +175,11 @@ public class SieveOfEratosthenesPar {
 
         return (oddNumbers[byteIndex] & (1 << bitIndex)) == 0;
     }    
+
+    public static void printPrimes(int[] primes) {
+        for (int prime : primes)
+            System.out.println(prime);
+    }
     
     
 }

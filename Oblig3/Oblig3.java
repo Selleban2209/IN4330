@@ -35,8 +35,8 @@ public class Oblig3 {
 
         try {
             n = Integer.parseInt(args[0]);
+            t= 0;
            // t = Integer.parseInt(args[1]);
-           t= 0;
             if (n <= 0)
                 throw new Exception();
 
@@ -45,8 +45,8 @@ public class Oblig3 {
                 if(Integer.parseInt(args[1])<=threadNum && Integer.parseInt(args[1])>0){
                     t = Integer.parseInt(args[1]);
                 } else{
-                    t = Runtime.getRuntime().availableProcessors();
                     System.out.println("Number of available threads exceeded, setting to max threads of " +t);
+                    t = Runtime.getRuntime().availableProcessors();
                 } 
             } else {
                 // If the second argument isn't provided, set t to the number of available threads
@@ -55,7 +55,7 @@ public class Oblig3 {
         } catch (Exception e) {
            
             System.out.println("Correct use of program is: " +
-                    "java Oblig3.java <n>  <t> where <n> is a positive integer, and t is number of threads");
+                    "java Oblig3.java <n>  <t> where <n> is a positive integer, and t is number of threads(optional)");
             return;
         }
 
@@ -65,15 +65,14 @@ public class Oblig3 {
         SieveOfEratosthenesPar soePar = new SieveOfEratosthenesPar(n);
         
         int []primesPar = soePar.getPrimesPar();
-        //SieveOfEratosthenes.printPrimes(primesPar);
+        SieveOfEratosthenesPar.printPrimes(primesPar);
         /**
          * Getting all the primes equal to and below 'n'
          */
         
         SieveOfEratosthenes soe = new SieveOfEratosthenes(n);
         int[] primes = soe.getPrimes();
-        
-        
+       
         
         double[] timesRunSeqGetPrime = new double[7];
         for (int i = 0; i < 7 ; i++) {

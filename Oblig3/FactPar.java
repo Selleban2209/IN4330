@@ -60,7 +60,7 @@ public class FactPar {
     }
 
 
-    //I HAVE NO MONEY
+
     public void factNumberPar(long number){ 
 
         //ArrayList<Long> factors = new ArrayList<>();
