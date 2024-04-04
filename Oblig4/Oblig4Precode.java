@@ -1,4 +1,4 @@
-package Oblig4;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -45,8 +45,8 @@ class Oblig4Precode extends JFrame {
 		x = d.x;
 		y = d.y;
 		n = d.n;
-		size = 500; // will probably need adjusting depending on your n and seed in NPunkter17
-		margin = 50; // will probably need adjusting depending on your n and seed in NPunkter17
+		size = 400; // will probably need adjusting depending on your n and seed in NPunkter17
+		margin = 25; // will probably need adjusting depending on your n and seed in NPunkter17
 		scale = size / x[d.MAX_X] + 0.8;
 	}
 

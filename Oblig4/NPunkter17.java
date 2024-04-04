@@ -1,4 +1,3 @@
-package Oblig4;
 
 import java.util.Random;
 
