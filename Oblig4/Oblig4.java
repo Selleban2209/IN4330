@@ -16,6 +16,9 @@ public class Oblig4 {
            }
 
         ConvexHull ch = new ConvexHull(n, seed);
+       IntList koHyll= ch.seqMethod();
+        Oblig4Precode ob4p = new Oblig4Precode(ch,koHyll );
+        ob4p.drawGraph();
     }
     
 }

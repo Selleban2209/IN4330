@@ -30,7 +30,7 @@ import javax.swing.JPanel;
  *         for the ConvexHull class to make the precode compile.
  ******************************************************************************/
 
-class Oblig4Precode extends JFrame {
+public class Oblig4Precode extends JFrame {
 	ConvexHull d;
 	IntList theCoHull;
 	int n;
@@ -39,7 +39,7 @@ class Oblig4Precode extends JFrame {
 	int size, margin;
 	double scale;
 
-	Oblig4Precode(ConvexHull d, IntList CoHull) {
+	public Oblig4Precode(ConvexHull d, IntList CoHull) {
 		theCoHull = CoHull;
 		this.d = d;
 		x = d.x;
