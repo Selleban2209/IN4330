@@ -68,8 +68,6 @@ public class ConvexHull {
         IntList line2 = getPoints(furthest, p2, subset);
 
 
-
-
         int furthest1 = findFurthest(p1, furthest, line1);
         int furthest2 = findFurthest(furthest, p2, line2);
 
@@ -216,16 +214,16 @@ public class ConvexHull {
 
        int  a = y[min] - y[max];
         int b = x[max] - x[min];
-       int  c = y[max]*x[min] - y[min]*x[max];
+        int  c = y[max]*x[min] - y[min]*x[max];
 
-            double numerator = a*x[i]+ b*y[i]+ c;
-            double denominator = Math.sqrt(a*a+b*b);
+        double numerator = a*x[i]+ b*y[i]+ c;
+        double denominator = Math.sqrt(a*a+b*b);
 
-            double distance = numerator/denominator;
+        double distance = numerator/denominator;
 
-           // System.out.println("Point "+ "("+ x+ ", "+ y+ ") distance: "+ distance);
+        // System.out.println("Point "+ "("+ x+ ", "+ y+ ") distance: "+ distance);
 
-           return distance;
+        return distance;
 
     }
 
