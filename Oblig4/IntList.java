@@ -1,12 +1,12 @@
-class IntList {
+public class IntList {
     int[] data;
     int len = 0;
   
-    IntList(int len) {
+    public IntList(int len) {
       data = new int[Math.max(2, len)];
     }
   
-    IntList() {
+    public IntList() {
       data = new int[16];
     }
   

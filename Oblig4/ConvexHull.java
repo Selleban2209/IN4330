@@ -70,13 +70,15 @@ public class ConvexHull {
 
         int furthest1 = findFurthest(p1, furthest, line1);
         int furthest2 = findFurthest(furthest, p2, line2);
-
-        System.out.printf("line (%d -%d -%d)\n", p1, p2, furthest );
-        System.out.println("\n over seq "); line1.print();
-        System.out.println("\n under seq "); line2.print();
-
-        System.out.printf("creating new line %d -%d\n", p1, furthest1 );
-        System.out.printf("creating new line %d -%d\n", furthest1, p2 );
+        /*
+         * 
+         System.out.printf("line (%d -%d -%d)\n", p1, p2, furthest );
+         System.out.println("\n over seq "); line1.print();
+         System.out.println("\n under seq "); line2.print();
+         
+         System.out.printf("creating new line %d -%d\n", p1, furthest1 );
+         System.out.printf("creating new line %d -%d\n", furthest1, p2 );
+         */
 
 
   
@@ -136,11 +138,13 @@ public class ConvexHull {
                 over_list.add(i);
             } else if (distance <= 0)  under_list.add(i);
         }
-
+        /*
+        * 
         System.out.printf("line (%d -%d)\n", MAX_X, MIN_X );
         System.out.println(" over "); over_list.print();
         System.out.println(" under "); under_list.print();
-
+        
+        */
 
         int furthestAbove= findFurthest(MAX_X, MIN_X, over_list);
         int furthestBelow= findFurthest(MIN_X, MAX_X, under_list);
