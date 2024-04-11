@@ -39,10 +39,7 @@ public class ConvexHull {
        // System.out.println( "f(x)= "+ a+"x + "+ b + "y + ("+c+")");
         
      
-       /* 
-       System.out.println(Arrays.toString(x));
-       System.out.println(Arrays.toString(y));
-       */
+     
     }
 
     int findMax(int a[]){
@@ -79,8 +76,6 @@ public class ConvexHull {
          System.out.printf("creating new line %d -%d\n", p1, furthest1 );
          System.out.printf("creating new line %d -%d\n", furthest1, p2 );
          */
-
-
   
         //System.exit(1);
         if(furthest1!=-1){     
@@ -196,7 +191,7 @@ public class ConvexHull {
             } 
         }
        // System.out.println("\nFurthest from over "+ "("+ x[furthestPointIndex]+ ", "+ y[furthestPointIndex]+ ")");
-        conveksPoints.add(furthestPointIndex);
+        //conveksPoints.add(furthestPointIndex);
 
 
        // System.out.println( "f(x)= "+ a+"x + "+ b + "y + ("+c+")");
