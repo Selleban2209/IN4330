@@ -24,9 +24,11 @@ public class Oblig4 {
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunSeq[i]= elapsedTime;
         }
-        Oblig4Precode ob4p = new Oblig4Precode(ch,koHyll );
-        ob4p.drawGraph();
-        Arrays.sort(timesRunSeq);
+        if(n < 1e6){
+            Oblig4Precode ob4p = new Oblig4Precode(ch,koHyll );
+            ob4p.drawGraph();
+        }
+            Arrays.sort(timesRunSeq);
 		
 
         System.out.println("-------------------------------------------------------------");

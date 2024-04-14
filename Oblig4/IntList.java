@@ -54,6 +54,15 @@ public class IntList {
     int size() {
       return len;
     }
+
+    boolean contains(int point) {
+      for (int i = 0; i < len; i++) {
+          if (data[i] == point) {
+              return true;
+          }
+      }
+      return false;
+    }
   
     void print() {
       for (int i = 0; i < len; i++) {
