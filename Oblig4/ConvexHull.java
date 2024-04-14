@@ -77,13 +77,13 @@ public class ConvexHull {
          System.out.printf("creating new line %d -%d\n", furthest1, p2 );
          */
   
-        if(furthest1!=-1 && !(koHyll.contains(furthest))){     
+        if(furthest1!=-1 && !(koHyll.contains(furthest1))){     
             seqReq(p1, furthest, furthest1, line1, koHyll);
         }
 
         if(!(koHyll.contains(furthest)))koHyll.add(furthest);
 
-        if (furthest2 != -1){
+        if (furthest2 != -1 && !(koHyll.contains(furthest2))){
             seqReq(furthest, p2, furthest2, line2, koHyll);
         }
     }
