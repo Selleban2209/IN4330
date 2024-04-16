@@ -6,13 +6,13 @@ public class ConvexHullPar {
     int numThreads;
     
     
-    public ConvexHullPar(int n, int seed){
+    public ConvexHullPar(int n, int seed, int numThreads){
         this.n = n;
         x = new int[n];
         y = new int[n];
         NPunkter17 p = new NPunkter17(n, seed);
-        p.fyllArrayer(x, y);
-        
+        this.numThreads = numThreads; 
+        p.fyllArrayer(x, y);      
         
     }
     
@@ -46,8 +46,8 @@ public class ConvexHullPar {
             IntList under_list = new IntList();
 
             for (int i = 0; i < n; i++) {
-                if(i == MIN_X || i== MAX_X)continue;
-                double distance= findLargestDistance(MAX_X, MIN_X, i);
+                if(i == local_MIN_X || i== local_MAX_Y)continue;
+                double distance= findLargestDistance(local_MAX_X, local_MIN_X, i);
                 
                 if(distance >=0){
                     over_list.add(i);
@@ -60,11 +60,11 @@ public class ConvexHullPar {
             localKoHyll.add(MAX_X);
 
             
-            parReq(MAX_X, MIN_X, furthestAbove, over_list, localKoHyll);
+            parReq(local_MAX_X, local_MIN_X, furthestAbove, over_list, localKoHyll);
             
         
             localKoHyll.add(MIN_X);
-            parReq(MIN_X, MAX_X, furthestBelow, under_list, localKoHyll);
+            parReq(local_MIN_X, local_MAX_X, furthestBelow, under_list, localKoHyll);
 
 
         
@@ -76,10 +76,10 @@ public class ConvexHullPar {
     
 
 
-    public void parReq(int p1, int p2, int furthest ,IntList subset, IntList koHyll){
+    public void parReq(int p1, int p2, int furthest, IntList subset, IntList koHyll){
 
         //put it to max threads for now
-        numThreads = Runtime.getRuntime().availableProcessors();
+       // numThreads = Runtime.getRuntime().availableProcessors();
         IntList line1 = getPoints(p1, furthest, subset);
         IntList line2 = getPoints(furthest, p2, subset);
 
@@ -106,8 +106,7 @@ public class ConvexHullPar {
     public IntList parMethod(){
         
         IntList koHyll = new IntList();
-        IntList result = new IntList();
-
+        //IntList result = new IntList();
 
         numThreads = Runtime.getRuntime().availableProcessors();
 
@@ -115,50 +114,21 @@ public class ConvexHullPar {
         for (int i = 0; i < numThreads; i++) {
             int start= (n/numThreads)*i;
             int end = (n/numThreads) * (i+1);
-            if(i==numThreads -1)end = n; 
-            
-            workers[i] = new Worker( start , end );
-            
+            if(i==numThreads -1)end = n;    
+            workers[i] = new Worker(start, end);
+            workers[i].start();    
         }
 
-
-
-
-
-        IntList over_list = new IntList();
-        IntList under_list = new IntList();
-
-
-
-
-        MAX_X = findMax(x);
-        MAX_Y = findMax(y);
-
-        for (int i = 0; i < n; i++) {
-            if(i == MIN_X || i== MAX_X)continue;
-            double distance= findLargestDistance(MAX_X, MIN_X, i);
-            
-            if(distance >=0){
-                over_list.add(i);
-            } else if (distance <= 0)  under_list.add(i);
+        for (Worker worker : workers) {
+            try {
+                worker.join();
+                koHyll.append(worker.localKoHyll);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
-
-        int furthestAbove= findFurthest(MAX_X, MIN_X, over_list);
-        int furthestBelow= findFurthest(MIN_X, MAX_X, under_list);
-
-        koHyll.add(MAX_X);
-
-        
-        //parReq(MAX_X, MIN_X, furthestAbove, over_list, koHyll);
-        
-    
-        koHyll.add(MIN_X);
-        //parReq(MIN_X, MAX_X, furthestBelow, under_list, koHyll);
-
-
         return koHyll;
-
-      
+  
     }
 
 

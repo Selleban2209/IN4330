@@ -64,7 +64,7 @@ public class IntList {
       return false;
     }
   
-    void print() {
+    public void print() {
       for (int i = 0; i < len; i++) {
         if (i % 15 == 0) System.out.println("");
   

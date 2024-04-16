@@ -50,6 +50,8 @@ public class Oblig4Precode extends JFrame {
 		scale = size / x[d.MAX_X] + 0.8;
 	}
 
+	
+
 	public void drawGraph() {
 		setTitle("Oblig4, num points:" + n);
 		grafen = new Graph();
