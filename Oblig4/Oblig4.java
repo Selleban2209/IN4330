@@ -26,8 +26,8 @@ public class Oblig4 {
             timesRunSeq[i]= elapsedTime;
         }
         if(n < 1e6){
-            Oblig4Precode ob4p = new Oblig4Precode(ch,koHyll );
-            ob4p.drawGraph();
+            Oblig4Precode ob4 = new Oblig4Precode(ch,koHyll );
+            ob4.drawGraph();
         }
         Arrays.sort(timesRunSeq);
 	
@@ -35,8 +35,8 @@ public class Oblig4 {
         ConvexHullPar chp = new ConvexHullPar(n, seed, numThreads);
         IntList koHyllPar = chp.parMethod();
         koHyllPar.print();
-        Oblig4Precode ob4p = new Oblig4Precode(ch, koHyllPar );
-        ob4p.drawGraph();
+        Oblig4Precode ob4par = new Oblig4Precode(ch, koHyllPar );
+        ob4par.drawGraph();
         System.out.println("-------------------------------------------------------------");
         System.out.println("Median time of 7 runs for sequential Convex Hull: "+ timesRunSeq[3] + " ms" );
     }

@@ -1,10 +1,12 @@
 import java.util.Arrays;
-
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.locks.*;
 public class ConvexHullPar {
     int n, MAX_X, MAX_Y,MIN_X, MIN_Y;
     int x[], y[];
     int numThreads;
-    
+    CyclicBarrier cb;
     
     public ConvexHullPar(int n, int seed, int numThreads){
         this.n = n;
@@ -13,7 +15,7 @@ public class ConvexHullPar {
         NPunkter17 p = new NPunkter17(n, seed);
         this.numThreads = numThreads; 
         p.fyllArrayer(x, y);      
-        
+        cb = new CyclicBarrier(numThreads); 
     }
     
   
@@ -34,12 +36,12 @@ public class ConvexHullPar {
             this.localKoHyll = new IntList();
             localX=  Arrays.copyOfRange(x, start, end);
             localY = Arrays.copyOfRange(y, start, end);
-            System.out.println("(" + start+ ", "+ (end)+ ")");
+          
         }
         
         @Override
         public void run() {
-            
+          
             local_MAX_X = findMax(localX);
             local_MAX_Y = findMax(localY);
             local_MIN_X = findMin(localX);
@@ -47,32 +49,33 @@ public class ConvexHullPar {
                         
             //System.out.println(local_MAX_X+ ", "+ local_MAX_Y);
            // System.out.println(local_MIN_X+ ", "+ local_MIN_Y);
-
-            IntList over_list = new IntList(end- start /2);
-            IntList under_list = new IntList(end- start /2);
+       
+            IntList over_list = new IntList();
+            IntList under_list = new IntList();
              
-            for (int i = 0; i < n; i++) {
+            for (int i = start; i < end; i++) {
                 if(i == local_MIN_X || i== local_MAX_X)continue;
                 double distance= findLargestDistance(local_MAX_X, local_MIN_X, i);
-                
                 if(distance >=0){
                     over_list.add(i);
                 } else if (distance <= 0)  under_list.add(i);
             }
-
+            
             int furthestAbove= findFurthest(local_MAX_X, local_MIN_X, over_list);
             int furthestBelow= findFurthest(local_MIN_X, local_MAX_X, under_list);
-           // System.out.println("jhalp prior" + furthestAbove + ", " + furthestBelow);
-            localKoHyll.add(local_MAX_X);
-
             
-            parReq(local_MAX_X, local_MIN_X, furthestAbove, over_list, localKoHyll);
+         
+
+            localKoHyll.add(local_MAX_X);
+           if(furthestAbove!=-1) parReq(local_MAX_X, local_MIN_X, furthestAbove, over_list, localKoHyll);
             
         
-            localKoHyll.add(local_MIN_X);
-            parReq(local_MIN_X, local_MAX_X, furthestBelow, under_list, localKoHyll);
+            if(!localKoHyll.contains(local_MIN_X))localKoHyll.add(local_MIN_X);
+            else return;
             
+            if(furthestBelow!=-1)parReq(local_MIN_X, local_MAX_X, furthestBelow, under_list, localKoHyll);
             
+         
         }
     }
     
@@ -89,13 +92,15 @@ public class ConvexHullPar {
         int furthest1 = findFurthest(p1, furthest, line1);
         int furthest2 = findFurthest(furthest, p2, line2);
 
-
+        
         //System.out.println("jhalp" + furthest1 + ", " + furthest2);
+      
         if(furthest1!=-1 && !(koHyll.contains(furthest1))){     
             parReq(p1, furthest, furthest1, line1, koHyll);
         }
 
-        if(!(koHyll.contains(furthest)) )koHyll.add(furthest);
+        if( furthest!= -1 &&!(koHyll.contains(furthest)) )koHyll.add(furthest);
+      
 
         if (furthest2 != -1 && !(koHyll.contains(furthest2))){
             parReq(furthest, p2, furthest2, line2, koHyll);
@@ -108,7 +113,9 @@ public class ConvexHullPar {
     public IntList parMethod(){
         
         IntList koHyll = new IntList();
-        //IntList result = new IntList();
+        IntList result = new IntList();
+        IntList over_list = new IntList();
+        IntList under_list = new IntList();
 
         
         Worker[] workers = new Worker[numThreads];
@@ -125,14 +132,40 @@ public class ConvexHullPar {
         for (Worker worker : workers) {
             try {
                 worker.join();
-                for (int num : worker.localKoHyll.data) {
-                    if(!koHyll.contains(num))koHyll.add(num);
-                }  
+                koHyll.append(worker.localKoHyll);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        return koHyll;
+        int[] globalX=  Arrays.copyOfRange(x, 0, koHyll.size());
+        int[] globalY=  Arrays.copyOfRange(y, 0, koHyll.size());
+        System.out.println("ok"+Arrays.toString(globalX));
+        
+        MAX_X = findMax(globalX);
+        MAX_Y = findMax(globalY);
+        MIN_X = findMin(globalX);
+        MIN_Y = findMin(globalY);
+        for (int i = 0; i < n; i++) {
+            if(i == MIN_X || i== MAX_X)continue;
+            double distance= findLargestDistance(MAX_X, MIN_X, i);  
+
+            if(distance >=0)over_list.add(i);
+            else if (distance <= 0)  under_list.add(i);
+        }
+
+
+        int furthestAbove= findFurthest(MAX_X, MIN_X, over_list);
+        int furthestBelow= findFurthest(MIN_X, MAX_X, under_list);
+      
+        result.add(MAX_X);
+
+        parReq(MAX_X, MIN_X, furthestAbove, over_list, result);
+
+        result.add(MIN_X);
+        parReq(MIN_X, MAX_X, furthestBelow, under_list, result);
+
+
+        return result;
   
     }
 
@@ -158,17 +191,15 @@ public class ConvexHullPar {
     int findMax(int a[]){
         int max =0;
         for (int i = 0; i < a.length; i++) {
-            if (a[i]>a[max]) max =i;
+            if (a[i]>=a[max]) max =i;
         }
-
         return max;
     }
     int findMin(int a[]){
         int min =0;
         for (int i = 0; i < a.length; i++) {
-            if (a[i]<a[min]) min =i;
+            if (a[i]<=a[min]) min =i;
         }
-
         return min;
     }
 
