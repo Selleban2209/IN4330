@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.concurrent.CyclicBarrier;
 
 /**
  * A basic class to allow the precode to compile. You will need to implement the
@@ -13,6 +14,7 @@ public class ConvexHull {
     int a, b, c;
     IntList conveksPoints= new IntList();
     int numThreads;
+    static CyclicBarrier cb;
 
     public ConvexHull(int n, int seed) {
         this.n = n;
@@ -158,127 +160,6 @@ public class ConvexHull {
     }
 
 
-    class Worker extends Thread{
-        IntList localKoHyll;
-        IntList workerSubset;
-        int workerFurthest;
-        int p1, p2;
-        int start, end;
-        int local_MAX_X, local_MAX_Y ;
-        int local_MIN_X, local_MIN_Y ;
-        int []localX ;
-        int []localY ; 
-        
-        public Worker(int start , int end){ 
-            this.start= start;
-            this.end= end;
-            this.localKoHyll = new IntList();
-            localX=  Arrays.copyOfRange(x, start, end);
-            localY = Arrays.copyOfRange(y, start, end);
-        
-        }
-        
-        @Override
-        public void run() {
-            System.err.println();
-            local_MAX_X = findMax(localX);
-            local_MAX_Y = findMax(localY);
-            local_MIN_X = findMin(localX);
-            local_MIN_Y = findMin(localY);
-                        
-            System.out.println(local_MAX_X+ ", "+ local_MAX_Y);
-            System.out.println(local_MIN_X+ ", "+ local_MIN_Y);
-
-            IntList over_list = new IntList();
-            IntList under_list = new IntList();
-             
-            for (int i = 0; i < n; i++) {
-                if(i == local_MIN_X || i== local_MAX_X)continue;
-                double distance= findLargestDistance(local_MAX_X, local_MIN_X, i);
-                
-                if(distance >=0){
-                    over_list.add(i);
-                } else if (distance <= 0)  under_list.add(i);
-            }
-
-            int furthestAbove= findFurthest(local_MAX_X, local_MIN_X, over_list);
-            int furthestBelow= findFurthest(local_MIN_X, local_MAX_X, under_list);
-            System.out.println("jhalp prior" + furthestAbove + ", " + furthestBelow);
-            localKoHyll.add(local_MAX_X);
-
-            
-            parReq(local_MAX_X, local_MIN_X, furthestAbove, over_list, localKoHyll);
-            
-        
-            localKoHyll.add(local_MIN_X);
-            parReq(local_MIN_X, local_MAX_X, furthestBelow, under_list, localKoHyll);
-
-
-        
-
-            
-            
-        }
-    }
-    
-
-
-    public void parReq(int p1, int p2, int furthest, IntList subset, IntList koHyll){
-
-        //put it to max threads for now
-       // numThreads = Runtime.getRuntime().availableProcessors();
-        IntList line1 = getPoints(p1, furthest, subset);
-        IntList line2 = getPoints(furthest, p2, subset);
-
-
-        int furthest1 = findFurthest(p1, furthest, line1);
-        int furthest2 = findFurthest(furthest, p2, line2);
-
-
-        System.out.println("jhalp" + furthest1 + ", " + furthest2);
-        if(furthest1!=-1 && !(koHyll.contains(furthest1))){     
-            parReq(p1, furthest, furthest1, line1, koHyll);
-        }
-
-        if(!(koHyll.contains(furthest)) )koHyll.add(furthest);
-
-        if (furthest2 != -1 && !(koHyll.contains(furthest2))){
-            parReq(furthest, p2, furthest2, line2, koHyll);
-        }
-    }
-    //size cut off
-    //thread cut off 
-    //spawn only one, let the parent thread take over one of the two new tasks
-    
-    public IntList parMethod(){
-        
-        IntList koHyll = new IntList();
-        //IntList result = new IntList();
-
-        numThreads = Runtime.getRuntime().availableProcessors();
-        numThreads = 1;
-        Worker[] workers = new Worker[numThreads];
-        for (int i = 0; i < numThreads; i++) {
-            int start= (n/numThreads)*i;
-            int end = (n/numThreads) * (i+1);
-            if(i==numThreads -1)end = n;    
-            workers[i] = new Worker(start, end-1);
-            workers[i].start();    
-        }
-
-        for (Worker worker : workers) {
-            try {
-                worker.join();
-                for (int num : worker.localKoHyll.data) {
-                    if(!koHyll.contains(num))koHyll.add(num);
-                }  
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-        return koHyll;
-  
-    }
 
 
     int findFurthest(int p1, int p2,IntList pointsList){

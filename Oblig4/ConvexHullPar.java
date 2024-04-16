@@ -16,6 +16,7 @@ public class ConvexHullPar {
         
     }
     
+  
     class Worker extends Thread{
         IntList localKoHyll;
         IntList workerSubset;
@@ -24,29 +25,34 @@ public class ConvexHullPar {
         int start, end;
         int local_MAX_X, local_MAX_Y ;
         int local_MIN_X, local_MIN_Y ;
-        int []localX = Arrays.copyOfRange(x, start, end);
-        int []localY = Arrays.copyOfRange(x, start, end);
+        int []localX ;
+        int []localY ; 
         
         public Worker(int start , int end){ 
             this.start= start;
             this.end= end;
             this.localKoHyll = new IntList();
-            
+            localX=  Arrays.copyOfRange(x, start, end);
+            localY = Arrays.copyOfRange(y, start, end);
+            System.out.println("(" + start+ ", "+ (end)+ ")");
         }
         
         @Override
         public void run() {
-
+            
             local_MAX_X = findMax(localX);
             local_MAX_Y = findMax(localY);
             local_MIN_X = findMin(localX);
-            local_MAX_Y = findMin(localY);
-            
-            IntList over_list = new IntList();
-            IntList under_list = new IntList();
+            local_MIN_Y = findMin(localY);
+                        
+            //System.out.println(local_MAX_X+ ", "+ local_MAX_Y);
+           // System.out.println(local_MIN_X+ ", "+ local_MIN_Y);
 
+            IntList over_list = new IntList(end- start /2);
+            IntList under_list = new IntList(end- start /2);
+             
             for (int i = 0; i < n; i++) {
-                if(i == local_MIN_X || i== local_MAX_Y)continue;
+                if(i == local_MIN_X || i== local_MAX_X)continue;
                 double distance= findLargestDistance(local_MAX_X, local_MIN_X, i);
                 
                 if(distance >=0){
@@ -56,19 +62,15 @@ public class ConvexHullPar {
 
             int furthestAbove= findFurthest(local_MAX_X, local_MIN_X, over_list);
             int furthestBelow= findFurthest(local_MIN_X, local_MAX_X, under_list);
-
-            localKoHyll.add(MAX_X);
+           // System.out.println("jhalp prior" + furthestAbove + ", " + furthestBelow);
+            localKoHyll.add(local_MAX_X);
 
             
             parReq(local_MAX_X, local_MIN_X, furthestAbove, over_list, localKoHyll);
             
         
-            localKoHyll.add(MIN_X);
+            localKoHyll.add(local_MIN_X);
             parReq(local_MIN_X, local_MAX_X, furthestBelow, under_list, localKoHyll);
-
-
-        
-
             
             
         }
@@ -88,12 +90,12 @@ public class ConvexHullPar {
         int furthest2 = findFurthest(furthest, p2, line2);
 
 
-
+        //System.out.println("jhalp" + furthest1 + ", " + furthest2);
         if(furthest1!=-1 && !(koHyll.contains(furthest1))){     
             parReq(p1, furthest, furthest1, line1, koHyll);
         }
 
-        if(!(koHyll.contains(furthest)))koHyll.add(furthest);
+        if(!(koHyll.contains(furthest)) )koHyll.add(furthest);
 
         if (furthest2 != -1 && !(koHyll.contains(furthest2))){
             parReq(furthest, p2, furthest2, line2, koHyll);
@@ -108,13 +110,14 @@ public class ConvexHullPar {
         IntList koHyll = new IntList();
         //IntList result = new IntList();
 
-        numThreads = Runtime.getRuntime().availableProcessors();
-
+        
         Worker[] workers = new Worker[numThreads];
         for (int i = 0; i < numThreads; i++) {
             int start= (n/numThreads)*i;
-            int end = (n/numThreads) * (i+1);
-            if(i==numThreads -1)end = n;    
+            int end = (n/numThreads) * (i+1)-1;
+            if(i==numThreads -1)end = n;  
+            
+            
             workers[i] = new Worker(start, end);
             workers[i].start();    
         }
@@ -122,7 +125,9 @@ public class ConvexHullPar {
         for (Worker worker : workers) {
             try {
                 worker.join();
-                koHyll.append(worker.localKoHyll);
+                for (int num : worker.localKoHyll.data) {
+                    if(!koHyll.contains(num))koHyll.add(num);
+                }  
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -130,7 +135,6 @@ public class ConvexHullPar {
         return koHyll;
   
     }
-
 
 
     public IntList getPoints(int start, int end, IntList subset){
