@@ -46,11 +46,12 @@ public class Oblig4 {
             Oblig4Precode ob4par = new Oblig4Precode(ch, koHyllPar );
             ob4par.drawGraph();
         }
-        System.out.println("-------------------------------------------------------------");
+        System.out.println("---------------------------[RESULTS]----------------------------------");
         System.out.println("Median time of 7 runs for sequential Convex Hull: "+ timesRunSeq[3] + " ms" );
         System.out.println("Median time of 7 runs for Parallel Convex Hull: " +timesRunPar[3] +  "ms" );
-
+        
         System.out.println("Speed up of sieve for 7 runs: "+ String.format("%.3f",( (timesRunSeq[3]/timesRunPar[3]))));
+        //System.out.println("-----------------------------------------------------------------------");
     }
     
 }

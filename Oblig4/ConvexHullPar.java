@@ -193,11 +193,8 @@ public class ConvexHullPar {
         return pointsList;
     }
 
-    
-
-
     int findMaxThread(int a[], int start, int end ){
-        int max =end-1;
+        int max =0;
         for (int i = start; i < end; i++) {
             if (a[i]>a[max]) max =i;
         }
