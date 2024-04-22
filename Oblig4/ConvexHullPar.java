@@ -248,14 +248,6 @@ public class ConvexHullPar {
     }
 
 
-    public boolean checkBetween(int p1, int p2, int p3){
-       
-        double d1 = Math.sqrt( Math.pow((x[p2] - x[p1]), 2) + Math.pow((y[p2] - y[p1]), 2));
-        double d2 = Math.sqrt( Math.pow((x[p3] - x[p1]), 2) + Math.pow((y[p3] - y[p1]), 2));
-        double d3 = Math.sqrt( Math.pow((x[p3] - x[p2]), 2) + Math.pow((y[p3] - y[p2]), 2));
-        if( d1> d2 && d1 > d3) return true;
-        return false;
-    }
 
     double findLargestDistance(int min, int max, int i){
         int  a = y[min] - y[max];
