@@ -41,6 +41,7 @@ public class Oblig4 {
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunPar[i]= elapsedTime;
         }
+     
         if(n < 1e5){
             Oblig4Precode ob4par = new Oblig4Precode(ch, koHyllPar );
             ob4par.drawGraph();
