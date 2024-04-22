@@ -53,7 +53,7 @@ public class ConvexHullPar {
             IntList over_list = new IntList();
             IntList under_list = new IntList();
              
-            for (int i = start; i < end; i++) {
+            for (int i = start; i < n; i+=numThreads) {
                 if(i == local_MIN_X || i== local_MAX_X)continue;
                 double distance= findLargestDistance(local_MAX_X, local_MIN_X, i);
                 if(distance >=0){
@@ -70,8 +70,8 @@ public class ConvexHullPar {
            if(furthestAbove!=-1) parReq(local_MAX_X, local_MIN_X, furthestAbove, over_list, localKoHyll);
             
         
-            if(!localKoHyll.contains(local_MIN_X))localKoHyll.add(local_MIN_X);
-            else return;
+            localKoHyll.add(local_MIN_X);
+           
             
             if(furthestBelow!=-1)parReq(local_MIN_X, local_MAX_X, furthestBelow, under_list, localKoHyll);
             
@@ -95,14 +95,14 @@ public class ConvexHullPar {
         
         //System.out.println("jhalp" + furthest1 + ", " + furthest2);
       
-        if(furthest1!=-1 && !(koHyll.contains(furthest1))){     
+        if(furthest1!=-1 ){     
             parReq(p1, furthest, furthest1, line1, koHyll);
         }
 
-        if( furthest!= -1 &&!(koHyll.contains(furthest)) )koHyll.add(furthest);
-      
+        if( furthest!= -1  )koHyll.add(furthest);
+        else return;
 
-        if (furthest2 != -1 && !(koHyll.contains(furthest2))){
+        if (furthest2 != -1){
             parReq(furthest, p2, furthest2, line2, koHyll);
         }
     }
@@ -137,17 +137,23 @@ public class ConvexHullPar {
                 e.printStackTrace();
             }
         }
-        int[] globalX=  Arrays.copyOfRange(x, 0, koHyll.size());
-        int[] globalY=  Arrays.copyOfRange(y, 0, koHyll.size());
-        System.out.println("ok"+Arrays.toString(globalX));
+      
+        // int[] globalX=  Arrays.copyOfRange(x, 0, koHyll.size());
+        //int[] globalY=  Arrays.copyOfRange(y, 0, koHyll.size());
+        //System.out.println("ok"+Arrays.toString(globalX) + " " + koHyll.size());
         
-        MAX_X = findMax(globalX);
-        MAX_Y = findMax(globalY);
-        MIN_X = findMin(globalX);
-        MIN_Y = findMin(globalY);
-        for (int i = 0; i < n; i++) {
-            if(i == MIN_X || i== MAX_X)continue;
-            double distance= findLargestDistance(MAX_X, MIN_X, i);  
+        MIN_X = findMaxSize(x, koHyll.size(), koHyll);
+        MAX_X = findMinSize(x, koHyll.size(), koHyll);
+        //MIN_Y= findMaxSize(y, koHyll.size());
+        //MAX_Y = findMinSize(y, koHyll.size());
+       
+        int curr =0; 
+        //System.out.println("current MAX_x and min_x " + "("+ MIN_X+ ", " +MAX_X+ ")");
+        for (int i = 0; i < koHyll.size(); i++) {
+
+            curr = koHyll.get(i);
+            if(curr == MIN_X || curr== MAX_X)continue;
+            double distance= findLargestDistance(MAX_X, MIN_X, curr);  
 
             if(distance >=0)over_list.add(i);
             else if (distance <= 0)  under_list.add(i);
@@ -191,16 +197,37 @@ public class ConvexHullPar {
     int findMax(int a[]){
         int max =0;
         for (int i = 0; i < a.length; i++) {
-            if (a[i]>=a[max]) max =i;
+            if (a[i]>a[max]) max =i;
         }
         return max;
     }
     int findMin(int a[]){
         int min =0;
         for (int i = 0; i < a.length; i++) {
-            if (a[i]<=a[min]) min =i;
+            if (a[i]<a[min]) min =i;
         }
         return min;
+    }
+
+
+    int findMinSize(int a[], int size, IntList local){
+        int min =0;
+        int curr=0;
+        for (int i = 0; i < size; i++) {
+            curr= local.get(i);
+            if (a[curr]<a[min]) min =curr;
+        }
+        return min;
+
+    }
+    int findMaxSize(int a[], int size, IntList local){
+        int max =0;
+        int curr =0;
+        for (int i = 0; i < size; i++) {
+            curr= local.get(i);
+            if (a[curr]>a[max]) max =curr;
+        }
+        return max;
     }
 
     int findFurthest(int p1, int p2,IntList pointsList){
@@ -213,11 +240,22 @@ public class ConvexHullPar {
             double distance= findLargestDistance(p1, p2, index);
             
             if (distance >= furthestPoint){
+                if(distance == 0  && !checkBetween(p1,p2, index)) continue;
                 furthestPoint = distance;
                 furthestPointIndex= index;
             } 
         } 
         return furthestPointIndex;
+    }
+
+
+    public boolean checkBetween(int p1, int p2, int p3){
+       
+        double d1 = Math.sqrt( Math.pow((x[p2] - x[p1]), 2) + Math.pow((y[p2] - y[p1]), 2));
+        double d2 = Math.sqrt( Math.pow((x[p3] - x[p1]), 2) + Math.pow((y[p3] - y[p1]), 2));
+        double d3 = Math.sqrt( Math.pow((x[p3] - x[p2]), 2) + Math.pow((y[p3] - y[p2]), 2));
+        if( d1> d2 && d1 > d3) return true;
+        return false;
     }
 
     double findLargestDistance(int min, int max, int i){
