@@ -31,7 +31,7 @@ public class Oblig4 {
             ob4.drawGraph();
         }
         Arrays.sort(timesRunSeq);
-       
+        
         ConvexHullPar chp = new ConvexHullPar(n, seed, numThreads);
         IntList koHyllPar  =  new IntList();
         double[] timesRunPar = new double[7];
@@ -41,6 +41,7 @@ public class Oblig4 {
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunPar[i]= elapsedTime;
         }
+        Arrays.sort(timesRunPar);
      
         if(n < 1e5){
             Oblig4Precode ob4par = new Oblig4Precode(ch, koHyllPar );
