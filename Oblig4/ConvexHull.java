@@ -82,8 +82,7 @@ public class ConvexHull {
     public IntList seqMethod(){
 
         IntList koHyll = new IntList();
-
-
+        
         IntList over_list = new IntList();
         IntList under_list = new IntList();
 
@@ -114,8 +113,6 @@ public class ConvexHull {
 
 
         return koHyll;
-
-
     }
 
 
@@ -134,7 +131,6 @@ public class ConvexHull {
             if (distance >= furthestPoint){
                 furthestPoint = distance;
                 furthestPointIndex= index;
-
             } 
         }
         return furthestPointIndex;
@@ -163,7 +159,6 @@ public class ConvexHull {
         double distance = numerator/denominator;
 
         return distance;
-
     }
 
 

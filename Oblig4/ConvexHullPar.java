@@ -21,20 +21,16 @@ public class ConvexHullPar {
   
     class Worker extends Thread{
         public IntList localKoHyll;
-      
        
         int start, end;
         int local_MAX_X, local_MAX_Y ;
         int local_MIN_X, local_MIN_Y ;
-        int []localX ;
-        int []localY ; 
+      
         
         public Worker(int start , int end){ 
             this.start= start;
             this.end= end;
-            this.localKoHyll = new IntList();
-        
-          
+            this.localKoHyll = new IntList();  
         }
 
         public IntList getLocalKohyll(){
@@ -47,7 +43,6 @@ public class ConvexHullPar {
             local_MAX_X = findMaxThread(x, start, end);
             local_MIN_X = findMinThread(x, start, end);
          
-     
             IntList over_list = new IntList();
             IntList under_list = new IntList();
              
@@ -61,12 +56,10 @@ public class ConvexHullPar {
             int furthestAbove= findFurthest(local_MAX_X, local_MIN_X, over_list);
             int furthestBelow= findFurthest(local_MIN_X, local_MAX_X, under_list);
             
-         
 
             localKoHyll.add(local_MAX_X);
             if(furthestAbove!=-1) parReq(local_MAX_X, local_MIN_X, furthestAbove, over_list, localKoHyll);
 
-            
             localKoHyll.add(local_MIN_X);
             if(furthestBelow!=-1)parReq(local_MIN_X, local_MAX_X, furthestBelow, under_list, localKoHyll);
             
@@ -114,7 +107,6 @@ public class ConvexHullPar {
             workers[i].start();    
         }
 
-
         for (Worker worker : workers) {
             try {
                 worker.join();
@@ -124,11 +116,9 @@ public class ConvexHullPar {
             }
         }
  
-        
         MIN_X = findMaxSize(x, WorkerKoHyll.size(), WorkerKoHyll);
         MAX_X = findMinSize(x, WorkerKoHyll.size(), WorkerKoHyll);
     
-     
         int curr =0; 
         for (int i = 0; i < WorkerKoHyll.size(); i++) {
 
@@ -151,10 +141,7 @@ public class ConvexHullPar {
         result.add(MIN_X);
         parReq(MIN_X, MAX_X, furthestBelow, under_list, result);
 
-
-
         return result;
-  
     }
 
 
