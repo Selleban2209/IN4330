@@ -1,10 +1,5 @@
 
 
-Computing Specification used for seccond set of testing
-
-Processor is an Intel(R) Core(TM) i5-9400F , 2,90 GHZ with 6 cores and 6 logical processors, 16 gb ram
-
---------------------------------------------
 
 Computing Specification used for testing
 

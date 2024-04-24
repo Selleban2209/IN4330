@@ -1,6 +1,6 @@
 Computing Specification used for testing
 
-Processor is an AMD Ryzen 5 5625U, 2,30 GHZ with 6 cores and 12 logical processors
+Processor is an AMD Ryzen 5 5625U, 2,30 GHZ with 6 cores and 12 logical processors, 16 gb ram
 
 Median times of 7 runs for SEQ_NOT_TRANSPOSED sequential: 5.0269ms
 Median times of 7 runs for SEQ_A_TRANSPOSED: sequential: 1.8601ms
