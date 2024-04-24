@@ -21,9 +21,8 @@ public class ConvexHullPar {
   
     class Worker extends Thread{
         public IntList localKoHyll;
-        IntList workerSubset;
-        int workerFurthest;
-        int p1, p2;
+      
+       
         int start, end;
         int local_MAX_X, local_MAX_Y ;
         int local_MIN_X, local_MIN_Y ;
@@ -68,8 +67,6 @@ public class ConvexHullPar {
             if(furthestAbove!=-1) parReq(local_MAX_X, local_MIN_X, furthestAbove, over_list, localKoHyll);
 
             
-            
-        
             localKoHyll.add(local_MIN_X);
             if(furthestBelow!=-1)parReq(local_MIN_X, local_MAX_X, furthestBelow, under_list, localKoHyll);
             
@@ -85,13 +82,9 @@ public class ConvexHullPar {
         IntList line1 = getPoints(p1, furthest, subset);
         IntList line2 = getPoints(furthest, p2, subset);
 
-
         int furthest1 = findFurthest(p1, furthest, line1);
         int furthest2 = findFurthest(furthest, p2, line2);
 
-        
-        //System.out.println("jhalp" + furthest1 + ", " + furthest2);
-    
         if(furthest1!=-1 && !(koHyll.contains(furthest1))){     
             parReq(p1, furthest, furthest1, line1, koHyll);
         }
@@ -103,10 +96,7 @@ public class ConvexHullPar {
             parReq(furthest, p2, furthest2, line2, koHyll);
         }
     }
-    //size cut off
-    //thread cut off 
-    //spawn only one, let the parent thread take over one of the two new tasks
-    
+  
     public IntList parMethod(){
         
         IntList WorkerKoHyll = new IntList();
@@ -119,7 +109,7 @@ public class ConvexHullPar {
             int start= (n/numThreads)*i;
             int end = (n/numThreads) * (i+1);
             if(i==numThreads -1)end = n;  
-            //System.out.println("("+ start + ", "+ end + ")");
+            
             workers[i] = new Worker(start, end);
             workers[i].start();    
         }
@@ -138,8 +128,7 @@ public class ConvexHullPar {
         MIN_X = findMaxSize(x, WorkerKoHyll.size(), WorkerKoHyll);
         MAX_X = findMinSize(x, WorkerKoHyll.size(), WorkerKoHyll);
     
-       //    koHyll.print();
-        //System.out.println("current MAX_x and min_x " + "("+ MIN_X+ ", " +MAX_X+ ")");
+     
         int curr =0; 
         for (int i = 0; i < WorkerKoHyll.size(); i++) {
 
