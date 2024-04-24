@@ -6,7 +6,7 @@ public class ConvexHullPar {
     int n, MAX_X, MAX_Y,MIN_X, MIN_Y;
     int x[], y[];
     int numThreads;
-    CyclicBarrier cb;
+
     
     public ConvexHullPar(int n, int seed, int numThreads){
         this.n = n;
@@ -15,7 +15,7 @@ public class ConvexHullPar {
         NPunkter17 p = new NPunkter17(n, seed);
         this.numThreads = numThreads; 
         p.fyllArrayer(x, y);      
-        //cb = new CyclicBarrier(numThreads); 
+      
     }
     
   
@@ -34,8 +34,7 @@ public class ConvexHullPar {
             this.start= start;
             this.end= end;
             this.localKoHyll = new IntList();
-            localX=  Arrays.copyOfRange(x, start, end);
-            localY = Arrays.copyOfRange(y, start, end);
+        
           
         }
 
@@ -49,10 +48,7 @@ public class ConvexHullPar {
             local_MAX_X = findMaxThread(x, start, end);
             local_MIN_X = findMinThread(x, start, end);
          
-                        
-            //System.out.println(local_MAX_X+ ", "+ local_MAX_Y);
-           // System.out.println(local_MIN_X+ ", "+ local_MIN_Y);
-       
+     
             IntList over_list = new IntList();
             IntList under_list = new IntList();
              
@@ -194,7 +190,7 @@ public class ConvexHullPar {
     }
 
     int findMaxThread(int a[], int start, int end ){
-        int max =0;
+        int max =end-1;
         for (int i = start; i < end; i++) {
             if (a[i]>a[max]) max =i;
         }
@@ -214,7 +210,7 @@ public class ConvexHullPar {
         int curr=0;
         for (int i = 0; i < size; i++) {
             curr= local.get(i);
-            if (a[i]<=a[min]) min =curr;
+            if (a[i]<a[min]) min =curr;
         }
         return min;
     }
@@ -224,7 +220,7 @@ public class ConvexHullPar {
         int curr =0;
         for (int i = 0; i < size; i++) {
             curr= local.get(i);
-            if (a[i]>=a[max]) max =curr;
+            if (a[i]>a[max]) max =curr;
         }
         return max;
     }
@@ -239,13 +235,14 @@ public class ConvexHullPar {
             double distance= findLargestDistance(p1, p2, index);
             
             if (distance >= furthestPoint){
-                if(distance == 0 ) continue;
+                if(distance == 0  )continue;
                 furthestPoint = distance;
                 furthestPointIndex= index;
             } 
         } 
         return furthestPointIndex;
     }
+  
 
 
 
