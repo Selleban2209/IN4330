@@ -1,0 +1,60 @@
+
+
+Computing Specification used for seccond set of testing
+
+Processor is an Intel(R) Core(TM) i5-9400F , 2,90 GHZ with 6 cores and 6 logical processors, 16 gb ram
+
+--------------------------------------------
+
+Computing Specification used for testing
+
+Processor is an AMD Ryzen 5 5625U, 2,30 GHZ with 6 cores and 12 logical processors, 16gb ram
+
+---------------------------[RESULTS]----------------------------------
+Median time of 7 runs for sequential Convex Hull: 0.2844 ms
+Median time of 7 runs for Parallel Convex Hull: 1.6202 ms
+Speed up of convex hull for 7 runs: 0,176
+Test run for n=1000, and number of threads t=6
+
+-----------------------------------------------------------------------
+
+---------------------------[RESULTS]----------------------------------
+Median time of 7 runs for sequential Convex Hull: 1.6939 ms
+Median time of 7 runs for Parallel Convex Hull: 3.1129 ms
+Speed up of convex hull for 7 runs: 0,544
+Test run for n=10000, and number of threads t=6
+
+-----------------------------------------------------------------------
+
+
+---------------------------[RESULTS]----------------------------------
+Median time of 7 runs for sequential Convex Hull: 12.0745 ms
+Median time of 7 runs for Parallel Convex Hull: 6.4139 ms
+Speed up of convex hull for 7 runs: 1,883
+Test run for n=100000, and number of threads t=6
+
+-----------------------------------------------------------------------
+
+---------------------------[RESULTS]----------------------------------
+Median time of 7 runs for sequential Convex Hull: 71.9999 ms
+Median time of 7 runs for Parallel Convex Hull: 25.172 ms
+Speed up of convex hull for 7 runs: 2,860
+Test run for n=1000000, and number of threads t=6
+
+-----------------------------------------------------------------------
+
+---------------------------[RESULTS]----------------------------------
+Median time of 7 runs for sequential Convex Hull: 639.6313 ms
+Median time of 7 runs for Parallel Convex Hull: 182.6646 ms
+Speed up of convex hull for 7 runs: 3,502
+Test run for n=10000000, and number of threads t=6
+
+-----------------------------------------------------------------------
+
+---------------------------[RESULTS]----------------------------------
+Median time of 7 runs for sequential Convex Hull: 6318.4777 ms
+Median time of 7 runs for Parallel Convex Hull: 2911.4738 ms
+Speed up of convex hull for 7 runs: 2,170
+Test run for n=100000000, and number of threads t=6
+
+-----------------------------------------------------------------------

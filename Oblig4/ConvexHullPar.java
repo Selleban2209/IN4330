@@ -109,7 +109,7 @@ public class ConvexHullPar {
     
     public IntList parMethod(){
         
-        IntList koHyll = new IntList();
+        IntList WorkerKoHyll = new IntList();
         IntList result = new IntList();
         IntList over_list = new IntList();
         IntList under_list = new IntList();
@@ -120,7 +120,6 @@ public class ConvexHullPar {
             int end = (n/numThreads) * (i+1);
             if(i==numThreads -1)end = n;  
             //System.out.println("("+ start + ", "+ end + ")");
-            
             workers[i] = new Worker(start, end);
             workers[i].start();    
         }
@@ -129,25 +128,22 @@ public class ConvexHullPar {
         for (Worker worker : workers) {
             try {
                 worker.join();
-                koHyll.append(worker.getLocalKohyll());
+                WorkerKoHyll.append(worker.getLocalKohyll());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
-   
-      
-      
+ 
         
-        MIN_X = findMaxSize(x, koHyll.size(), koHyll);
-        MAX_X = findMinSize(x, koHyll.size(), koHyll);
+        MIN_X = findMaxSize(x, WorkerKoHyll.size(), WorkerKoHyll);
+        MAX_X = findMinSize(x, WorkerKoHyll.size(), WorkerKoHyll);
     
        //    koHyll.print();
         //System.out.println("current MAX_x and min_x " + "("+ MIN_X+ ", " +MAX_X+ ")");
         int curr =0; 
-        for (int i = 0; i < koHyll.size(); i++) {
+        for (int i = 0; i < WorkerKoHyll.size(); i++) {
 
-            curr = koHyll.get(i);
+            curr = WorkerKoHyll.get(i);
             if(curr == MIN_X || curr== MAX_X)continue;
             double distance= findLargestDistance(MAX_X, MIN_X, curr);  
 
@@ -192,14 +188,14 @@ public class ConvexHullPar {
     int findMaxThread(int a[], int start, int end ){
         int max =end-1;
         for (int i = start; i < end; i++) {
-            if (a[i]>a[max]) max =i;
+            if (a[i]>=a[max]) max =i;
         }
         return max;
     }
     int findMinThread(int a[], int start, int end){
         int min =0;
         for (int i = start; i < end; i++) {
-            if (a[i]<a[min]) min =i;
+            if (a[i]<=a[min]) min =i;
         }
         return min;
     }
@@ -210,7 +206,7 @@ public class ConvexHullPar {
         int curr=0;
         for (int i = 0; i < size; i++) {
             curr= local.get(i);
-            if (a[i]<a[min]) min =curr;
+            if (a[i]<=a[min]) min =curr;
         }
         return min;
     }
@@ -220,7 +216,7 @@ public class ConvexHullPar {
         int curr =0;
         for (int i = 0; i < size; i++) {
             curr= local.get(i);
-            if (a[i]>a[max]) max =curr;
+            if (a[i]>=a[max]) max =curr;
         }
         return max;
     }
