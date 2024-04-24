@@ -11,10 +11,8 @@ public class ConvexHull {
     int x[], y[];
     IntList over_list;
     IntList under_list;
-    int a, b, c;
-    IntList conveksPoints= new IntList();
     int numThreads;
-    static CyclicBarrier cb;
+    
 
     public ConvexHull(int n, int seed) {
         this.n = n;
@@ -22,26 +20,12 @@ public class ConvexHull {
         y = new int[n];
         NPunkter17 p = new NPunkter17(n, seed);
         p.fyllArrayer(x, y);
-        //IntList punkterList = p.lagIntList();
-        //punkterList.print();
-
-        //Oblig4Precode ob4p = new Oblig4Precode(this, p.lagIntList());
-        //ob4p.drawGraph();
-    
-        //System.out.println("min ("+ x[MIN_X]+ ", " + y[MIN_X]+ ")");
-       // System.out.println("max ("+ x[MAX_X]+ ", " + y[MAX_X]+ ")");
-      
-     
-
-       // System.out.println( "f(x)= "+ a+"x + "+ b + "y + ("+c+")");
-        
-     
      
     }
 
     int findMax(int a[]){
         int max =0;
-        for (int i = 0; i < a.length; i++) {
+        for (int i = 0; i < n; i++) {
             if (a[i]>a[max]) max =i;
         }
 
@@ -49,7 +33,7 @@ public class ConvexHull {
     }
     int findMin(int a[]){
         int min =0;
-        for (int i = 0; i < a.length; i++) {
+        for (int i = 0; i < n; i++) {
             if (a[i]<a[min]) min =i;
         }
 
@@ -114,12 +98,8 @@ public class ConvexHull {
             if(i == MIN_X || i== MAX_X)continue;
             double distance= findLargestDistance(MAX_X, MIN_X, i);
 
-          //  System.out.println("Point "+ "("+ currX+ ", "+ currY+ ") distance: "+ distance);
-            
-
-            if(distance >=0){
-                over_list.add(i);
-            } else if (distance <= 0)  under_list.add(i);
+            if(distance >=0) over_list.add(i);
+            else if (distance <= 0) under_list.add(i);
         }
       
         int furthestAbove= findFurthest(MAX_X, MIN_X, over_list);
@@ -173,7 +153,7 @@ public class ConvexHull {
 
     double findLargestDistance(int min, int max, int i){
 
-       int  a = y[min] - y[max];
+        int  a = y[min] - y[max];
         int b = x[max] - x[min];
         int  c = y[max]*x[min] - y[min]*x[max];
 
@@ -181,8 +161,6 @@ public class ConvexHull {
         double denominator = Math.sqrt(a*a+b*b);
 
         double distance = numerator/denominator;
-
-        // System.out.println("Point "+ "("+ x+ ", "+ y+ ") distance: "+ distance);
 
         return distance;
 
