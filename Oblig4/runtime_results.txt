@@ -1,9 +1,8 @@
 
 
+Computing Specification used for seccond set of testing
 
-Computing Specification used for testing
-
-Processor is an AMD Ryzen 5 5625U, 2,30 GHZ with 6 cores and 12 logical processors, 16gb ram
+Processor is an Intel(R) Core(TM) i5-9400F , 2,90 GHZ with 6 cores and 6 logical processors, 16 gb ram
 
 ---------------------------[RESULTS]----------------------------------
 Median time of 7 runs for sequential Convex Hull: 0.2844 ms
