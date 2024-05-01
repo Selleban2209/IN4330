@@ -3,7 +3,8 @@ package Oblig5;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.lang.Math.*;
-public class WaitAndSwap {
+
+public class WaitAndSwap2 {
 
 
     static int N = 1;
@@ -48,18 +49,18 @@ public class WaitAndSwap {
     public static void waitAndSwap(int id, int iteration){
         variSpeed(id, iteration);
         try {
-            if(id% 2== 0 ){
+          
                 
                 variSpeed(id, iteration);
                 s1.acquire();
-                System.out.println("Thread "+id + " finished");
+               // System.out.println("Thread "+id + " finished");
                 isEven =true ;
                 isOdd = false;
                 
                 variSpeed(id, iteration);
                 s2.release();
                 
-            }else {
+             
                 variSpeed(id, iteration);
                 s2.acquire();
                 System.out.println("Thread "+id + " finished");
@@ -69,7 +70,7 @@ public class WaitAndSwap {
                 variSpeed(id, iteration);
                 s1.release();
                 
-            }
+            
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
