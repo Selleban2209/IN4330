@@ -7,7 +7,7 @@ class WaitNextC {
    static Semaphore okToKick = new Semaphore(1, true); 
    static Semaphore okToEnterHolding = new Semaphore(1, true); 
    static Semaphore holdingArea = new Semaphore(0, true);
-   static int N = 4; // number of iterations
+   static int N = 1; // number of iterations
    static boolean first = true;
    static int debuglevel = 9;  // 4: varispeed resumption; 3: varispeed delay time; 2: sems values; 1, : (not implemented) 
    static boolean variableSpeedThreads = true;
@@ -166,8 +166,8 @@ class WaitNextC {
                                      debugPrintln(myId, i, 2, " START iteration");  
 	     waitNext(myId, i);
                                      debugPrintln(myId, i, 2, " END iteration");
-         }
-                                     debugPrintln(myId, 0, 1, " END thread"); 
+                                    }
+                                    debugPrintln(myId, 0, 1, " END thread"); 
       }
 
    }

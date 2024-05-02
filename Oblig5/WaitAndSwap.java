@@ -15,13 +15,13 @@ public class WaitAndSwap {
     static int extraSlowThreads = 0; // number of threads that sleep 10x variableSpeedRate
  
 
-    static Semaphore s1 = new Semaphore(1);
-    static Semaphore s2 = new Semaphore(0);
+    static Semaphore s1 = new Semaphore(0);
+    //static Semaphore s2 = new Semaphore(1);
 
     static boolean isEven = false;
     static boolean isOdd = true;
 
-
+   
  
 
     
@@ -48,33 +48,22 @@ public class WaitAndSwap {
     public static void waitAndSwap(int id, int iteration){
         variSpeed(id, iteration);
         try {
-            if(id% 2== 0 ){
-                
-                variSpeed(id, iteration);
+            if(isOdd){      variSpeed(id, iteration);
+                isOdd =false;
                 s1.acquire();
-                System.out.println("Thread "+id + " finished");
-                isEven =true ;
-                isOdd = false;
-                
                 variSpeed(id, iteration);
-                s2.release();
-                
+                System.out.println("Thread "+id+ " finished");
             }else {
                 variSpeed(id, iteration);
-                s2.acquire();
-                System.out.println("Thread "+id + " finished");
-                
-                
+                System.out.println("Thread "+id+ " finished");
                 isOdd = true;
                 variSpeed(id, iteration);
-                s1.release();
-                
+                s1.release();   
             }
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-    
         variSpeed(id, iteration);
     }
     
@@ -84,9 +73,7 @@ public class WaitAndSwap {
         int localId; 
 
         public Worker(int id){
-
             localId= id;
-
         }
 
         @Override
@@ -96,11 +83,9 @@ public class WaitAndSwap {
              } catch (Exception e) { return;}; 
                 
             for (int i = 0; i < N; i++) {
-                waitAndSwap(localId++, 0);
-                
-           
-                
+                waitAndSwap(localId, i);     
             }
+       
         }
 
     }
@@ -109,15 +94,36 @@ public class WaitAndSwap {
 
     public static void main(String[] args) {
         
-
+        //default set to 8 if not specified
         int numThreads =8;
+        int runs = 1;
+        if ( args.length >= 1) {
+            numThreads = Integer.parseInt(args[0]);
+        }
+        if ( args.length >= 2) {
+            runs = Integer.parseInt(args[1]);
+
+        }
+        System.out.println("Number of threads: " + numThreads);
 
         Worker[] workers = new Worker[numThreads];
-        for (int i = 0; i < numThreads; i++) {
-           
+        for (int j = 0; j <runs; j++) {
+            System.out.println("\n-----------------[Run "+ (j+1)+ "]-----------------------");
+            for (int i = 0; i < numThreads; i++) {
             
-            workers[i] = new Worker(i+1);
-            workers[i].start();
+                
+                workers[i] = new Worker(i+1);
+                workers[i].start();
+                
+            }
+            for (Worker worker : workers) {
+                try {
+                    worker.join();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
             
         }
     }

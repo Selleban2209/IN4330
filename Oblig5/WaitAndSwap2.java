@@ -49,28 +49,26 @@ public class WaitAndSwap2 {
     public static void waitAndSwap(int id, int iteration){
         variSpeed(id, iteration);
         try {
-          
+            if(id% 2== 0 ){
                 
                 variSpeed(id, iteration);
                 s1.acquire();
-               // System.out.println("Thread "+id + " finished");
                 isEven =true ;
                 isOdd = false;
                 
                 variSpeed(id, iteration);
+                System.out.println("Thread "+id + " finished");
                 s2.release();
                 
-             
+            }else {
                 variSpeed(id, iteration);
                 s2.acquire();
-                System.out.println("Thread "+id + " finished");
-                
-                
+                System.out.println("Thread "+id + " finished");        
                 isOdd = true;
                 variSpeed(id, iteration);
                 s1.release();
                 
-            
+            }
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -79,8 +77,7 @@ public class WaitAndSwap2 {
         variSpeed(id, iteration);
     }
     
-
-
+    
     static class Worker extends Thread {
         int localId; 
 
@@ -112,14 +109,17 @@ public class WaitAndSwap2 {
         
 
         int numThreads =8;
-
-        Worker[] workers = new Worker[numThreads];
-        for (int i = 0; i < numThreads; i++) {
-           
-            
-            workers[i] = new Worker(i+1);
-            workers[i].start();
-            
+        for (int j = 0; j <4; j++) {
+            System.out.println("-------------[Run "+ j+ "]-------------------");
+            Worker[] workers = new Worker[numThreads];
+            for (int i = 0; i < numThreads; i++) {
+                
+                
+                workers[i] = new Worker(i+1);
+                workers[i].start();
+                
+            }
+            System.out.println("----------------------------------------------");
         }
     }
 }
