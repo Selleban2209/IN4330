@@ -7,7 +7,7 @@ class WaitNextC {
    static Semaphore okToKick = new Semaphore(1, true); 
    static Semaphore okToEnterHolding = new Semaphore(1, true); 
    static Semaphore holdingArea = new Semaphore(0, true);
-   static int N = 1; // number of iterations
+   static int N = 3; // number of iterations
    static boolean first = true;
    static int debuglevel = 9;  // 4: varispeed resumption; 3: varispeed delay time; 2: sems values; 1, : (not implemented) 
    static boolean variableSpeedThreads = true;
@@ -158,7 +158,7 @@ class WaitNextC {
       public void run() {
                                      debugPrintln(myId, 0, 1, " START thread");         
          try {
-            TimeUnit.MILLISECONDS.sleep((long) myId*1000); // let them start in order.
+            // let them start in order.
          } catch (Exception e) { return;}; 
 			
 

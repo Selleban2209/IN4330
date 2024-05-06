@@ -15,12 +15,14 @@ public class WaitAndSwap {
     static int extraSlowThreads = 0; // number of threads that sleep 10x variableSpeedRate
  
 
-    static Semaphore s1 = new Semaphore(0);
-    //static Semaphore s2 = new Semaphore(1);
+    static Semaphore enter    = new Semaphore(1, true);
+    static Semaphore hold = new Semaphore(1, true);
+    static Semaphore escape = new Semaphore(0,true );
 
     static boolean isEven = false;
     static boolean isOdd = true;
 
+    
    
  
 
@@ -46,25 +48,31 @@ public class WaitAndSwap {
     
 
     public static void waitAndSwap(int id, int iteration){
-        variSpeed(id, iteration);
+        
         try {
-            if(isOdd){      variSpeed(id, iteration);
-                isOdd =false;
-                s1.acquire();
-                variSpeed(id, iteration);
-                System.out.println("Thread "+id+ " finished");
-            }else {
-                variSpeed(id, iteration);
-                System.out.println("Thread "+id+ " finished");
-                isOdd = true;
-                variSpeed(id, iteration);
-                s1.release();   
+            System.out.println("stuck here");
+            if(!first && !(id %2==0))escape.release();
+            enter.acquire();
+            
+            if(isOdd){
+                enter.release(); 
+                first =false;
+            } else {
+               // isOdd = false;
+                
             }
+        
+            if(!(id % 2 ==0)){
+                isOdd = true;
+                escape.acquire();
+                enter.release(); 
+            }    
+           
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        variSpeed(id, iteration);
+        
     }
     
 
@@ -85,7 +93,7 @@ public class WaitAndSwap {
             for (int i = 0; i < N; i++) {
                 waitAndSwap(localId, i);     
             }
-       
+            System.out.println("Thread "+localId+ " finished");
         }
 
     }

@@ -9,18 +9,20 @@ public class WaitAndSwap2 {
 
     static int N = 1;
 
-    static boolean first = true;
+    
     static int debuglevel = 9;  // 4: varispeed resumption; 3: varispeed delay time; 2: sems values; 1, : (not implemented) 
     static boolean variableSpeedThreads = true;
     static double variableSpeedRate = 0.0; // threads sleep for a random time between 0 and this rate in milliseconds
     static int extraSlowThreads = 0; // number of threads that sleep 10x variableSpeedRate
  
 
-    static Semaphore s1 = new Semaphore(1);
-    static Semaphore s2 = new Semaphore(0);
+    static Semaphore outer = new Semaphore(1, true);
+    static Semaphore lastWait = new Semaphore(-1, true);
+    static Semaphore flipBool = new Semaphore(1, true);
+    static Semaphore firstWait = new Semaphore(0, true);
 
-    static boolean isEven = false;
-    static boolean isOdd = true;
+    static boolean first = true;
+    static boolean odd= false;
 
 
  
@@ -47,28 +49,32 @@ public class WaitAndSwap2 {
     
 
     public static void waitAndSwap(int id, int iteration){
-        variSpeed(id, iteration);
+    
         try {
-            if(id% 2== 0 ){
-                
-                variSpeed(id, iteration);
-                s1.acquire();
-                isEven =true ;
-                isOdd = false;
-                
-                variSpeed(id, iteration);
-                System.out.println("Thread "+id + " finished");
-                s2.release();
-                
-            }else {
-                variSpeed(id, iteration);
-                s2.acquire();
-                System.out.println("Thread "+id + " finished");        
-                isOdd = true;
-                variSpeed(id, iteration);
-                s1.release();
-                
+            outer.acquire();
+            
+            if(first){
+                first = false;
+                outer.release();
             }
+            flipBool.acquire();
+            odd = !odd;
+
+            if(odd){
+                flipBool.release();
+
+
+                lastWait.release();
+                firstWait.acquire();
+
+                lastWait.acquire();
+            } else {
+                flipBool.release();
+                firstWait.release();
+            }
+
+            outer.release();
+
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -82,9 +88,7 @@ public class WaitAndSwap2 {
         int localId; 
 
         public Worker(int id){
-
             localId= id;
-
         }
 
         @Override
@@ -94,32 +98,50 @@ public class WaitAndSwap2 {
              } catch (Exception e) { return;}; 
                 
             for (int i = 0; i < N; i++) {
-                waitAndSwap(localId++, 0);
-                
-           
+                waitAndSwap(localId, 0);
                 
             }
+            System.out.println("Thread "+localId + " finished");    
         }
 
     }
 
 
 
+
     public static void main(String[] args) {
         
-
+        //default set to 8 if not specified
         int numThreads =8;
-        for (int j = 0; j <4; j++) {
-            System.out.println("-------------[Run "+ j+ "]-------------------");
-            Worker[] workers = new Worker[numThreads];
+        int runs = 1;
+        if ( args.length >= 1) {
+            numThreads = Integer.parseInt(args[0]);
+        }
+        if ( args.length >= 2) {
+            runs = Integer.parseInt(args[1]);
+
+        }
+        System.out.println("Number of threads: " + numThreads);
+
+        Worker[] workers = new Worker[numThreads];
+        for (int j = 0; j <runs; j++) {
+            System.out.println("\n-----------------[Run "+ (j+1)+ "]-----------------------");
             for (int i = 0; i < numThreads; i++) {
-                
+            
                 
                 workers[i] = new Worker(i+1);
                 workers[i].start();
                 
             }
-            System.out.println("----------------------------------------------");
+            for (Worker worker : workers) {
+                try {
+                    worker.join();
+                } catch (InterruptedException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+            
         }
     }
 }
