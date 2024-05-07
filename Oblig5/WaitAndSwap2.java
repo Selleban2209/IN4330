@@ -109,7 +109,7 @@ public class WaitAndSwap2 {
 
 
 
-    @SuppressWarnings("deprecation")
+  
     public static void main(String[] args) {
         
         //default set to 8 if not specified
@@ -123,7 +123,7 @@ public class WaitAndSwap2 {
             System.out.println("Usage: Oblig5.java <t> <n> ");
             System.exit(0);
         }
-     //   cb = new CyclicBarrier(runs-1);
+        // cb = new CyclicBarrier(runs-1);
 
         System.out.println("Number of threads: " + numThreads);
 
@@ -137,10 +137,19 @@ public class WaitAndSwap2 {
                 workers[i].start();
                 
             }
-            for (int x=0; x <numThreads-1; x++) {
+            for (int x=0; x <numThreads; x++) {
                 try {
-
-                    if( x== numThreads-1 && numThreads-1 %2==1)workers[numThreads-1].stop();
+                    
+                /*
+                 * 
+                 if(x %2 ==0){
+                     if(x==numThreads-2)workers[numThreads-2].interrupt();
+                    }else {
+                        if(x==numThreads-1)workers[numThreads-1].interrupt();
+                        
+                    }
+                    */
+                        
                     workers[x].join();
                   //  System.out.println("HIHIHAHA");
                 } catch (InterruptedException e) {
