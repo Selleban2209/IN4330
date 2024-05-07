@@ -1,5 +1,6 @@
 package Oblig5;
 
+import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 import java.lang.Math.*;
@@ -9,7 +10,7 @@ public class WaitAndSwap2 {
 
     static int N = 1;
 
-    
+    static CyclicBarrier cb;
     static int debuglevel = 9;  // 4: varispeed resumption; 3: varispeed delay time; 2: sems values; 1, : (not implemented) 
     static boolean variableSpeedThreads = true;
     static double variableSpeedRate = 0.0; // threads sleep for a random time between 0 and this rate in milliseconds
@@ -63,7 +64,6 @@ public class WaitAndSwap2 {
             if(odd){
                 flipBool.release();
 
-
                 lastWait.release();
                 firstWait.acquire();
 
@@ -80,7 +80,7 @@ public class WaitAndSwap2 {
             e.printStackTrace();
         }
     
-        variSpeed(id, iteration);
+        
     }
     
     
@@ -109,23 +109,27 @@ public class WaitAndSwap2 {
 
 
 
+    @SuppressWarnings("deprecation")
     public static void main(String[] args) {
         
         //default set to 8 if not specified
         int numThreads =8;
         int runs = 1;
-        if ( args.length >= 1) {
+        
+        try {
             numThreads = Integer.parseInt(args[0]);
-        }
-        if ( args.length >= 2) {
             runs = Integer.parseInt(args[1]);
-
+        } catch (Exception e) {
+            System.out.println("Usage: Oblig5.java <t> <n> ");
+            System.exit(0);
         }
+     //   cb = new CyclicBarrier(runs-1);
+
         System.out.println("Number of threads: " + numThreads);
 
-        Worker[] workers = new Worker[numThreads];
         for (int j = 0; j <runs; j++) {
             System.out.println("\n-----------------[Run "+ (j+1)+ "]-----------------------");
+            Worker[] workers = new Worker[numThreads];
             for (int i = 0; i < numThreads; i++) {
             
                 
@@ -133,15 +137,19 @@ public class WaitAndSwap2 {
                 workers[i].start();
                 
             }
-            for (Worker worker : workers) {
+            for (int x=0; x <numThreads-1; x++) {
                 try {
-                    worker.join();
+
+                    if( x== numThreads-1 && numThreads-1 %2==1)workers[numThreads-1].stop();
+                    workers[x].join();
+                  //  System.out.println("HIHIHAHA");
                 } catch (InterruptedException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
                 }
+
+
             }
-            
         }
     }
 }

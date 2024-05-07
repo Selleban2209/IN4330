@@ -17,9 +17,10 @@ public class WaitAndSwap {
 
     static Semaphore enter    = new Semaphore(1, true);
     static Semaphore hold = new Semaphore(1, true);
+    static Semaphore flipBool = new Semaphore(1, true);
     static Semaphore escape = new Semaphore(0,true );
 
-    static boolean isEven = false;
+  
     static boolean isOdd = true;
 
     
@@ -50,30 +51,29 @@ public class WaitAndSwap {
     public static void waitAndSwap(int id, int iteration){
         
         try {
-            System.out.println("stuck here");
-            if(!first && !(id %2==0))escape.release();
+            if(!first && id %2==1)escape.release();
             enter.acquire();
             
             if(isOdd){
-                enter.release(); 
+                isOdd= !isOdd;
                 first =false;
-            } else {
-               // isOdd = false;
-                
+                enter.release(); 
             }
         
-            if(!(id % 2 ==0)){
-                isOdd = true;
+            if(id % 2 ==1){
+                isOdd = !isOdd;
                 escape.acquire();
                 enter.release(); 
             }    
-           
+            
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
     }
+        
+    
     
 
 
@@ -105,12 +105,12 @@ public class WaitAndSwap {
         //default set to 8 if not specified
         int numThreads =8;
         int runs = 1;
-        if ( args.length >= 1) {
+        try {
             numThreads = Integer.parseInt(args[0]);
-        }
-        if ( args.length >= 2) {
             runs = Integer.parseInt(args[1]);
-
+        } catch (Exception e) {
+            System.out.println("Usage: Oblig5.java <t> <n> ");
+            System.exit(0);
         }
         System.out.println("Number of threads: " + numThreads);
 
