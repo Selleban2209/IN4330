@@ -73,7 +73,7 @@ public class Oblig3 {
         for (int i = 0; i < 7 ; i++) {
             double timeStart = System.nanoTime();
             SieveOfEratosthenes soeSeqTest = new SieveOfEratosthenes(n);
-            int[] primesTest = soeSeqTest.getPrimes();      
+            soeSeqTest.getPrimes();      
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunSeqGetPrime[i]= elapsedTime;
 
@@ -86,13 +86,12 @@ public class Oblig3 {
         for (int i = 0; i < 7 ; i++) {
             double timeStart = System.nanoTime();
             SieveOfEratosthenesPar soeParTest = new SieveOfEratosthenesPar(n);
-            int []primesParTest = soeParTest.getPrimesPar();        
+            soeParTest.getPrimesPar();        
             double elapsedTime =(System.nanoTime() - timeStart) / 1e6; 
             timesRunParGetPrime[i]= elapsedTime;         
         }
         Arrays.sort(timesRunParGetPrime);
         System.out.println("Sieve parallel times for a median of 7 test run: " + timesRunParGetPrime[3]+ "ms" + " (" +(timesRunParGetPrime[3]/1000)+ "s)");
-        
         System.out.println("Speed up of sieve for 7 runs: "+ String.format("%.3f",( (timesRunSeqGetPrime[3]/timesRunParGetPrime[3]))));
         /**
          * Printing the primes collected
@@ -101,10 +100,7 @@ public class Oblig3 {
         //Comparing prime calculaction
         SieveOfEratosthenes soe = new SieveOfEratosthenes(n);
         int[] primes = soe.getPrimes();
-        //SieveOfEratosthenes.printPrimes(primes);
-        
-        //System.out.println("\n");
-
+ 
         SieveOfEratosthenesPar soePar = new SieveOfEratosthenesPar(n);
         int []primesPar = soePar.getPrimesPar();
         //SieveOfEratosthenesPar.printPrimes(primesPar);
@@ -138,8 +134,7 @@ public class Oblig3 {
             timesRunPar[i]= elapsedTime;
         }
         Arrays.sort(timesRunPar);
-        System.out.println("Times for a median of 7 test run Parallelized factorization, "+ "using " + t + " threads "+ timesRunPar[3]+ "ms" + " (" +(timesRunPar[3]/1000)+ "s)");
-        
+        System.out.println("Times for a median of 7 test run Parallelized factorization, "+ "using " + t + " threads "+ timesRunPar[3]+ "ms" + " (" +(timesRunPar[3]/1000)+ "s)");  
         System.out.println("Speed up of factorize for 7 runs: "+ String.format("%.3f",( (timesRunSeq[3]/timesRunPar[3]))));
         
 
